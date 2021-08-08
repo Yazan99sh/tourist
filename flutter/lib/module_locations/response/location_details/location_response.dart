@@ -10,6 +10,6 @@ class LocationDetailsResponse {
   LocationDetailsResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    locationDetails = LocationDetailsModel.fromJson(json['data']);
+    locationDetails = LocationDetailsModel.fromJson(json['Data']);
   }
 }

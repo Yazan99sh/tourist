@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - 'release-v*'
+      - 'l*'
 
 jobs:
   deploy:
@@ -27,7 +28,7 @@ jobs:
         PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Select Xcode version
-      run: sudo xcode-select -s '/Applications/Xcode_11.3.app/Contents/Developer'
+      run: sudo xcode-select -s '/Applications/Xcode_12.4.app/Contents/Developer'
 
     - name: Bundle install
       run: cd ./flutter/ios && bundle update --bundler && bundle install
@@ -36,11 +37,18 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: "12.x"
+
     - name: Setup flutter
       uses: subosito/flutter-action@v1
       with:
-        flutter-version: "1.22.2"
+        flutter-version: "1.22.4"
         channel: "stable"
+
+    - name: Get Flutter Packages tools
+      run: |
+        cd ./flutter
+        flutter pub upgrade
+        flutter packages pub run build_runner build --delete-conflicting-outputs
 
     - name: Install tools
       run: |
@@ -60,4 +68,3 @@ jobs:
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
         MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
-        DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS: ${{ secrets.DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS }}

@@ -10,7 +10,7 @@ class EventRepository {
   EventRepository(this._httpClient);
 
   Future<EventListResponse> getAllEvents() async {
-    Map response = await _httpClient.get(Urls.event);
+    Map response = await _httpClient.get(Urls.eventList);
 
     if (response != null) {
       return EventListResponse.fromJson(response);

@@ -10,9 +10,9 @@ class LocationListResponse {
   LocationListResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    if (json['data'] != null) {
+    if (json['Data'] != null) {
       locationList = <LocationListItem>[];
-      json['data'].forEach((v) {
+      json['Data'].forEach((v) {
         locationList.add(new LocationListItem.fromJson(v));
       });
     }

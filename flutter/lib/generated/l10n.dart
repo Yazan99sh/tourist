@@ -45,10 +45,10 @@ class S {
     );
   }
 
-  /// `Welcome to `
+  /// `Welcome to Soyah`
   String get welcome {
     return Intl.message(
-      'Welcome to ',
+      'Welcome to Soyah',
       name: 'welcome',
       desc: '',
       args: [],
@@ -1240,6 +1240,466 @@ class S {
     return Intl.message(
       'Profile',
       name: 'profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Locations you work in`
+  String get locationsYouWorkIn {
+    return Intl.message(
+      'Locations you work in',
+      name: 'locationsYouWorkIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Name`
+  String get locationName {
+    return Intl.message(
+      'Location Name',
+      name: 'locationName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location Description`
+  String get locationDescription {
+    return Intl.message(
+      'Location Description',
+      name: 'locationDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Phone number`
+  String get myPhoneNumber {
+    return Intl.message(
+      'My Phone number',
+      name: 'myPhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guides Area`
+  String get guidesArea {
+    return Intl.message(
+      'Guides Area',
+      name: 'guidesArea',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Query`
+  String get searchQuery {
+    return Intl.message(
+      'Search Query',
+      name: 'searchQuery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price proposal`
+  String get priceProposal {
+    return Intl.message(
+      'Price proposal',
+      name: 'priceProposal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get pending {
+    return Intl.message(
+      'Pending',
+      name: 'pending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `On Going`
+  String get onGoing {
+    return Intl.message(
+      'On Going',
+      name: 'onGoing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finished`
+  String get finished {
+    return Intl.message(
+      'Finished',
+      name: 'finished',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proposal`
+  String get proposal {
+    return Intl.message(
+      'Proposal',
+      name: 'proposal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login as guide`
+  String get loginAsGuide {
+    return Intl.message(
+      'Login as guide',
+      name: 'loginAsGuide',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login as tourist`
+  String get loginAsTourist {
+    return Intl.message(
+      'Login as tourist',
+      name: 'loginAsTourist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Soyah`
+  String get soyah {
+    return Intl.message(
+      'Soyah',
+      name: 'soyah',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `rating`
+  String get rating {
+    return Intl.message(
+      'rating',
+      name: 'rating',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login Status`
+  String get loginStatus {
+    return Intl.message(
+      'Login Status',
+      name: 'loginStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Empty List`
+  String get empty {
+    return Intl.message(
+      'Empty List',
+      name: 'empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter`
+  String get filter {
+    return Intl.message(
+      'Filter',
+      name: 'filter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get continues {
+    return Intl.message(
+      'Continue',
+      name: 'continues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chat Room`
+  String get chatRoom {
+    return Intl.message(
+      'Chat Room',
+      name: 'chatRoom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Writing`
+  String get startWriting {
+    return Intl.message(
+      'Start Writing',
+      name: 'startWriting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Empty Text`
+  String get emptyText {
+    return Intl.message(
+      'Empty Text',
+      name: 'emptyText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loging Please`
+  String get loginPlease {
+    return Intl.message(
+      'Loging Please',
+      name: 'loginPlease',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Be the First to comment`
+  String get firstComment {
+    return Intl.message(
+      'Be the First to comment',
+      name: 'firstComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Comment Here`
+  String get commentHere {
+    return Intl.message(
+      'Comment Here',
+      name: 'commentHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CC Payment works`
+  String get ccPay {
+    return Intl.message(
+      'CC Payment works',
+      name: 'ccPay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request Success`
+  String get requestSuccess {
+    return Intl.message(
+      'Request Success',
+      name: 'requestSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Soon`
+  String get soon {
+    return Intl.message(
+      'Soon',
+      name: 'soon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No guides for this place was found`
+  String get noGuides {
+    return Intl.message(
+      'No guides for this place was found',
+      name: 'noGuides',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refuse Order`
+  String get refused {
+    return Intl.message(
+      'Refuse Order',
+      name: 'refused',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish Order`
+  String get finishOrder {
+    return Intl.message(
+      'Finish Order',
+      name: 'finishOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This value is required`
+  String get valueRequred {
+    return Intl.message(
+      'This value is required',
+      name: 'valueRequred',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is no result found`
+  String get notFound {
+    return Intl.message(
+      'There is no result found',
+      name: 'notFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a Request`
+  String get createNewOrder {
+    return Intl.message(
+      'Create a Request',
+      name: 'createNewOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rating average`
+  String get ratingAverage {
+    return Intl.message(
+      'Rating average',
+      name: 'ratingAverage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error finding the profile, please register first`
+  String get errorFindingProfile {
+    return Intl.message(
+      'Error finding the profile, please register first',
+      name: 'errorFindingProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code Timeout`
+  String get codeTimeout {
+    return Intl.message(
+      'Code Timeout',
+      name: 'codeTimeout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Successfully Saved`
+  String get successfully_saved {
+    return Intl.message(
+      'Successfully Saved',
+      name: 'successfully_saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order`
+  String get order {
+    return Intl.message(
+      'Order',
+      name: 'order',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Region`
+  String get city {
+    return Intl.message(
+      'Region',
+      name: 'city',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cost`
+  String get cost {
+    return Intl.message(
+      'Cost',
+      name: 'cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can chat with the tourist after payment phase`
+  String get chatWithTourest {
+    return Intl.message(
+      'You can chat with the tourist after payment phase',
+      name: 'chatWithTourest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can chat with the guide after payment phase`
+  String get chatWithGuid {
+    return Intl.message(
+      'You can chat with the guide after payment phase',
+      name: 'chatWithGuid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate this area`
+  String get rateThisLocation {
+    return Intl.message(
+      'Rate this area',
+      name: 'rateThisLocation',
       desc: '',
       args: [],
     );

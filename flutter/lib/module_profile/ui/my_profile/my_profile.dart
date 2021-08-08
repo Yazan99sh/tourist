@@ -24,10 +24,6 @@ class MyProfileScreen extends StatefulWidget {
     _stateManager.setMyProfile(this, profileModel);
   }
 
-  void refresh(ProfileModel model) {
-    _stateManager.refresh(this, model);
-  }
-
   void getProfile() {
     _stateManager.getMyProfile(this);
   }
@@ -50,11 +46,18 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(currentState.runtimeType.toString());
     currentState ??= EditProfileStateLoading(widget);
-    return Scaffold(
-      appBar: AppBar(),
-      body: currentState.getUI(context),
+    return GestureDetector(
+      onTap: () {
+        var focus = FocusScope.of(context);
+        if (focus.canRequestFocus) {
+          focus.unfocus();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(),
+        body: currentState.getUI(context),
+      ),
     );
   }
 

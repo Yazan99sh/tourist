@@ -32,3 +32,7 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task flutterWrapper(type: Wrapper) {
+    gradleVersion = '6.7.1' // set to applicable version
+}

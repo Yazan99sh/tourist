@@ -7,11 +7,11 @@ import 'package:tourists/module_locations/service/google_locations/google_locati
 @provide
 class SearchBloc {
   final _stateSubject = PublishSubject();
-  final _searchSuggestionSubject = PublishSubject<Map<String, String>>();
+  final _searchSuggestionSubject = PublishSubject<List>();
 
   Stream get stateStream => _stateSubject.stream;
 
-  Stream<Map<String, String>> get predictionStream =>
+  Stream<List> get predictionStream =>
       _searchSuggestionSubject.stream;
 
   final GoogleLocationsService _locationsService;
@@ -25,7 +25,6 @@ class SearchBloc {
     _debounce = Timer(const Duration(milliseconds: 500), () {
       _locationsService.getPredictions(query).then(
         (value) {
-          print('New Suggestion Batch');
           _searchSuggestionSubject.add(value);
         },
       );

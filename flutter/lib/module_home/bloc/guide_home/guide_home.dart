@@ -11,7 +11,7 @@ class GuideHomeBloc {
   static const STATUS_CODE_LOAD_SUCCESS = 155;
   static const STATUS_CODE_LOAD_ERROR = 165;
 
-  final OrdersService _ordersService;
+  final TouristOrdersService _ordersService;
 
   GuideHomeBloc(this._ordersService);
 
@@ -23,6 +23,15 @@ class GuideHomeBloc {
   void getOrdersList() {
     _orderSubject.add(Pair(STATUS_CODE_LOADING, null));
     _ordersService.getOrders().then((value) {
+      if (value == null) {
+        _orderSubject.add(Pair(STATUS_CODE_LOAD_ERROR, null));
+      }
+      _orderSubject.add(Pair(STATUS_CODE_LOAD_SUCCESS, value));
+    });
+  }
+  void getGuideOrdersList() {
+    _orderSubject.add(Pair(STATUS_CODE_LOADING, null));
+    _ordersService.getGuideOrderList().then((value) {
       if (value == null) {
         _orderSubject.add(Pair(STATUS_CODE_LOAD_ERROR, null));
       }

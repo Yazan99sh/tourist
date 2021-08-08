@@ -6,7 +6,6 @@ import 'package:tourists/module_forms/user_orders_module/request/request_guide/r
 import 'package:tourists/module_guide/model/guide_list_item/guide_list_item.dart';
 import 'package:tourists/module_guide/service/guide_list/guide_list.dart';
 import 'package:tourists/module_orders/response/request_guide_response/request_guide_response.dart';
-import 'package:uuid/uuid.dart';
 
 @provide
 class RequestGuideService {
@@ -16,7 +15,7 @@ class RequestGuideService {
 
   RequestGuideService(this._guidesService, this._requestGuideManager);
 
-  Future<String> requestGuide(RequestGuideModel requestGuide) async {
+  Future<bool> requestGuide(RequestGuideModel requestGuide) async {
     User user = await _auth.currentUser;
     if (user == null) {
       return null;
@@ -24,27 +23,24 @@ class RequestGuideService {
 
     String uid = user.uid;
 
-    print('Requesting Guide with ID: ' + requestGuide.guideId);
-
     RequestGuideRequest requestObject = RequestGuideRequest(
-        touristUserID: uid,
-        guidUserID: requestGuide.guideId,
-        city: requestGuide.location,
-        roomID: Uuid().v1(),
-        language: requestGuide.language,
-        arriveDate: requestGuide.arrivalDate,
-        cost: 7,
-        status: 'onGoing',
-        date: DateTime.now(),
-        leaveDate: requestGuide.arrivalDate
-            .add(Duration(days: requestGuide.stayingDays)),
-        services: requestGuide.services);
+      touristUserID: uid,
+      guidUserID: requestGuide.guideId,
+      city: requestGuide.location,
+      language: requestGuide.language,
+      arriveDate: requestGuide.arrivalDate,
+      status: 'pending',
+      date: DateTime.now(),
+      leaveDate: requestGuide.arrivalDate
+          .add(Duration(days: requestGuide.stayingDays)),
+      services: requestGuide.services,
+    );
 
     RequestGuideResponse requestResult =
         await _requestGuideManager.requestGuide(requestObject);
 
     if (requestResult != null) {
-      return requestResult.data.roomID;
+      return requestResult.statusCode == '201';
     }
 
     return null;

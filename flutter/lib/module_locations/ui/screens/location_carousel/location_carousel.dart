@@ -55,22 +55,21 @@ class _LocationCarouselScreenState extends State<LocationCarouselScreen> {
     List<Widget> locationWidgetList = [];
 
     locationList.forEach((location) {
-      locationWidgetList.add(
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              LocationRoutes.locationDetails,
-              arguments: location.id.toString(),
-            );
-          },
+      locationWidgetList.add(GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            LocationRoutes.locationDetails,
+            arguments: location.id.toString(),
+          );
+        },
         child: CarouselCard(
           title: location.name,
           description: location.description,
-          image: location.path[0].path,
-          commentsNumber:  location.commentNumber != null
+          image: location.path.length!=0?location.path[0].path:'https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg',
+          commentsNumber: location.commentNumber != null
               ? int.parse(location.commentNumber)
               : 0,
-          stars: location.ratingAverage ?? 5,
+          stars: double.parse(location.ratingAverage).floor() ?? 0,
         ),
       ));
     });
@@ -99,14 +98,14 @@ class _LocationCarouselScreenState extends State<LocationCarouselScreen> {
       direction: Axis.vertical,
       children: <Widget>[
         CircularProgressIndicator(),
-        Text('Loading Data from Network')
+        Text('${S.of(context).loading}')
       ],
     );
   }
 
   @override
   void dispose() {
-    if (_stateSubscription != null){
+    if (_stateSubscription != null) {
       _stateSubscription.cancel();
     }
     super.dispose();

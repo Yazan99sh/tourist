@@ -1,4 +1,5 @@
 import 'package:tourists/consts/urls.dart';
+import 'package:tourists/module_auth/enums/user_type.dart';
 import 'package:tourists/module_auth/request/login_request/login_request.dart';
 import 'package:tourists/module_auth/request/register_request/register_request.dart';
 import 'package:tourists/module_auth/response/login_response/login_response.dart';
@@ -13,7 +14,7 @@ class AuthRepository {
 
   Future<bool> createUser(RegisterRequest request) async {
     var result;
-    if (!request.roles.contains('guid')) {
+    if (request.role == UserRole.ROLE_GUIDE) {
       result = await _apiClient.post(Urls.registerGuideAPI, request.toJson());
     } else {
       result = await _apiClient.post(Urls.registerTouristsAPI, request.toJson());

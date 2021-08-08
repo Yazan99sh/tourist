@@ -28,13 +28,6 @@
             },
             {
               "lookupKey": {
-                "root": "asset:tourists/lib/module_guide/manager/guides_manager/guides_manager.dart#GuidesManager",
-                "qualifier": null
-              },
-              "isProvider": false
-            },
-            {
-              "lookupKey": {
                 "root": "asset:tourists/lib/module_comment/manager/rate/rate_manager.dart#RatingManager",
                 "qualifier": null
               },
@@ -43,6 +36,13 @@
             {
               "lookupKey": {
                 "root": "asset:tourists/lib/module_persistence/sharedpref/shared_preferences_helper.dart#SharedPreferencesHelper",
+                "qualifier": null
+              },
+              "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:tourists/lib/module_locations/service/google_locations/google_locations_service.dart#GoogleLocationsService",
                 "qualifier": null
               },
               "isProvider": false

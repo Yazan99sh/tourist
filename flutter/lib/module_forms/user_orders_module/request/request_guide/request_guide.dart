@@ -11,18 +11,19 @@ class RequestGuideRequest {
   String status;
   int cost;
 
-  RequestGuideRequest(
-      {this.date,
-      this.touristUserID,
-      this.guidUserID,
-      this.city,
-      this.language,
-      this.arriveDate,
-      this.leaveDate,
-      this.services,
-      this.roomID,
-      this.status,
-      this.cost});
+  RequestGuideRequest({
+    this.date,
+    this.touristUserID,
+    this.guidUserID,
+    this.city,
+    this.language,
+    this.arriveDate,
+    this.leaveDate,
+    this.services,
+    this.roomID,
+    this.status,
+    this.cost,
+  });
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonData = {};

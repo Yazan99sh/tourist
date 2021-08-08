@@ -21,14 +21,7 @@
           "dependencies": [
             {
               "lookupKey": {
-                "root": "asset:tourists/lib/utils/language/language.dart#LanguageHelper",
-                "qualifier": null
-              },
-              "isProvider": false
-            },
-            {
-              "lookupKey": {
-                "root": "asset:tourists/lib/module_auth/service/auth_service/auth_service.dart#AuthService",
+                "root": "asset:tourists/lib/module_settings/state_manager/settings_state_manager.dart#SettingsStateManager",
                 "qualifier": null
               },
               "isProvider": false

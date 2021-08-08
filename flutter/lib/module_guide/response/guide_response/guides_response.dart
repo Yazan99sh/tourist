@@ -4,17 +4,21 @@ class GuidesResponse {
   String statusCode;
   String msg;
   List<GuideListItemModel> data;
-
+  var noData;
   GuidesResponse({this.statusCode, this.msg, this.data});
 
   GuidesResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    if (json['data'] != null) {
+    if (json['Data'] != null) {
       data = <GuideListItemModel>[];
-      json['data'].forEach((v) {
-        if (v != null) data.add(new GuideListItemModel.fromJson(v));
-      });
+      try {
+        json['Data'].forEach((v) {
+          if (v != null) data.add(new GuideListItemModel.fromJson(v));
+        });
+      } catch (e) {
+        noData = json['Data'];
+      }
     }
   }
 
@@ -23,7 +27,7 @@ class GuidesResponse {
     data['status_code'] = this.statusCode;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['Data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
   }

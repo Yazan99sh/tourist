@@ -59,7 +59,7 @@ class LoginStateManager {
           _loginScreenState, err.toString(), _email, _password, role));
     });
 
-    _authService.verifyWithPhone(true, phoneNumber, UserRole.ROLE_GUIDE);
+    _authService.verifyWithPhone(true, phoneNumber, role);
   }
 
   void loginViaEmailAndPassword( LoginScreenState _loginScreenState,

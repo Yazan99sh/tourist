@@ -21,7 +21,7 @@
           "dependencies": [
             {
               "lookupKey": {
-                "root": "asset:tourists/lib/module_orders/service/orders/orders_service.dart#OrdersService",
+                "root": "asset:tourists/lib/module_orders/service/orders/orders_service.dart#TouristOrdersService",
                 "qualifier": null
               },
               "isProvider": false

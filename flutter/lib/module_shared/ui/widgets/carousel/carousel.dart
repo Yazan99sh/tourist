@@ -21,8 +21,9 @@ class _CarouselWidgetState extends State<CarouselWidget> {
           width: 8,
           height: 8,
           decoration: BoxDecoration(
-              color: position == i ? Colors.white : Color(0x88ffffff),
-              borderRadius: BorderRadius.all(Radius.circular(4))),
+            color: position == i ? Colors.white : Color(0x88ffffff),
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+          ),
         ),
       ));
     }
@@ -37,6 +38,11 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       height: 240,
       child: Stack(
         children: <Widget>[
+          // Sizing Background
+          Container(
+            height: 240,
+          ),
+
           PageView(
             children: widget.pages,
             scrollDirection: Axis.horizontal,
@@ -45,19 +51,14 @@ class _CarouselWidgetState extends State<CarouselWidget> {
               setState(() {});
             },
           ),
-          // Sizing Background
-          Container(
-            height: 240,
-          ),
+
           Positioned(
             bottom: 16,
             left: 0,
             right: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                getIndicator()
-              ],
+              children: [getIndicator()],
             ),
           )
         ],

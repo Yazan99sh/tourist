@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class CreateRatingRequest {
   String user;
-  int rate;
-  String region;
+  String rate;
+  int region;
   String guide;
 
   CreateRatingRequest(
@@ -13,7 +13,7 @@ class CreateRatingRequest {
     user = json['user'];
     rate = json['rate'];
     region = json['region'];
-    guide = json['guide'];
+    guide = json['guid'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +21,7 @@ class CreateRatingRequest {
     data['user'] = this.user;
     data['rate'] = this.rate;
     if (region != null) data['region'] = this.region;
-    if (guide != null) data['guide'] = this.guide;
+    if (guide != null) data['guid'] = this.guide;
     return data;
   }
 }

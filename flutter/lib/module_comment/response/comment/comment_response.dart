@@ -5,13 +5,15 @@ class CommentModel {
   Date date;
   String userName;
   List<String> roles;
-
+  String userImage;
   CommentModel({this.comment, this.date, this.userName, this.roles});
 
   CommentModel.fromJson(Map<String, dynamic> json) {
     comment = json['comment'];
     date = json['date'] != null ? new Date.fromJson(json['date']) : null;
     userName = json['userName'];
+    userImage = json['userImage'];
+
     roles = json['roles'].cast<String>();
   }
 
@@ -22,6 +24,8 @@ class CommentModel {
       data['date'] = this.date.toJson();
     }
     data['userName'] = this.userName;
+    data['userImage'] = this.userImage;
+
     data['roles'] = this.roles;
     return data;
   }

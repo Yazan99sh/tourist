@@ -18,15 +18,7 @@
           },
           "singleton": false,
           "asynchronous": false,
-          "dependencies": [
-            {
-              "lookupKey": {
-                "root": "asset:tourists/lib/module_network/http_client/http_client.dart#HttpClient",
-                "qualifier": null
-              },
-              "isProvider": false
-            }
-          ]
+          "dependencies": []
         }
       }
     ]

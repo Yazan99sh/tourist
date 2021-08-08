@@ -8,83 +8,83 @@ import '../../../../module_guide/ui/widget/guide_list_item/guide_list_item.dart'
 
 class GuidesListWidget extends StatefulWidget {
   final List<GuideListItemModel> guides;
-  List<GuideListItemModel> displayedGuides= [];
- final  int cityId;
+  final String cityId;
+  final int pageSize;
 
+  GuidesListWidget(
+    this.guides,
+    this.cityId, [
+    this.pageSize = 10,
+  ]);
 
+  @override
+  State<StatefulWidget> createState() => _GuidesListWidgetState(guides);
+}
 
-  GuidesListWidget(this.guides,this.cityId){
+class _GuidesListWidgetState extends State<GuidesListWidget> {
+  List<GuideListItemModel> displayedGuides = [];
+
+  _GuidesListWidgetState(List<GuideListItemModel> guides) {
     displayedGuides = (guides.length > 3)
         ? guides.sublist(0, 3)
         : guides;
   }
 
   @override
-  State<StatefulWidget> createState() => _GuidesListWidgetState();
-}
-
-class _GuidesListWidgetState extends State<GuidesListWidget> {
-
-  @override
   Widget build(BuildContext context) {
     if (widget.guides == null) return Container();
-
-
 
     return Column(
       children: [
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: widget.displayedGuides.length,
-            itemBuilder: (BuildContext context, int index){
-
+            itemCount: displayedGuides.length,
+            itemBuilder: (BuildContext context, int index) {
               // Construct the List into CSV text
               String citiesInText = '';
-              widget.displayedGuides[index].city.forEach((cityName) {
-                citiesInText = citiesInText + ' ' + cityName;
+              displayedGuides[index].city.forEach((cityName) {
+                citiesInText = '${citiesInText ?? ''} ${cityName ?? ''}';
               });
 
               // Construct the List into CSV text
               String languagesInText = '';
-              widget.displayedGuides[index].language.forEach((language) {
+              displayedGuides[index].language.forEach((language) {
                 languagesInText = languagesInText + language + ' ';
-              }
-              );
+              });
               return GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed(
                     FormsRoutes.requestGuideForm,
                     arguments: RequestGuideNavigationArguments(
-                        guideId:  widget.displayedGuides[index].user, cityId: widget.cityId.toString()),
+                      guideId: displayedGuides[index].user,
+                      cityId: widget.cityId,
+                    ),
                   );
                 },
                 child: GuideListItemWidget(
                   guideCity: citiesInText,
-                  guideName:  widget.displayedGuides[index].name,
+                  guideName: displayedGuides[index].name,
                   guideLanguage: languagesInText,
-                  availability:  widget.displayedGuides[index].status,
-                  rate: 3,
-                  guideImage:  widget.displayedGuides[index].image,
+                  availability: displayedGuides[index].status,
+                  rate: displayedGuides[index].rating,
+                  guideImage: displayedGuides[index].name,
+                  isLogged: false,
                 ),
               );
-            }
-        ),
-        if(widget.guides.length > widget.displayedGuides.length)
+            }),
+        if (widget.guides.length > displayedGuides.length)
           RaisedButton(
-              onPressed: (){
+              onPressed: () {
                 setState(() {
-
-                  int startIndex = widget.displayedGuides.length-1;
-                  widget.displayedGuides.addAll((widget.guides.length -widget. displayedGuides.length >3)
-                      ? widget.guides.sublist(startIndex,startIndex+3)
-                      :widget.guides.sublist(startIndex));
+                  int startIndex = displayedGuides.length - 1;
+                  displayedGuides.addAll(
+                      (widget.guides.length - displayedGuides.length > 3)
+                          ? widget.guides.sublist(startIndex, startIndex + 3)
+                          : widget.guides.sublist(startIndex));
                 });
               },
-              child:Text(
-                  S.of(context).show_more
-              )
-          )
+              child: Text(S.of(context).show_more))
       ],
     );
   }

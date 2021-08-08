@@ -3,17 +3,17 @@ platform :android do
   desc "Submit a new build to alpha Track on Play"
   lane :alpha do
     gradle(
-      gradle_path: "/usr/bin/gradle",
       task: "assemble",
-      build_type: 'Debug'
+      build_type: 'Debug',
+      project_dir: '../android/'
     )
     gradle(
-      gradle_path: "/usr/bin/gradle",
+      project_dir: '../android/',
       task: "assemble",
       build_type: 'Profile'
     )
     gradle(
-      gradle_path: "/usr/bin/gradle",
+      project_dir: '../android/',
       task: "assemble",
       build_type: 'Release'
     )

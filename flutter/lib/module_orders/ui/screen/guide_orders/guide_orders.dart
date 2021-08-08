@@ -4,7 +4,7 @@ import 'package:inject/inject.dart';
 import 'package:tourists/generated/l10n.dart';
 import 'package:tourists/module_orders/bloc/guide_orders_list/guide_orders_list.dart';
 import 'package:tourists/module_orders/model/order/order_model.dart';
-import 'package:tourists/module_orders/ui/widget/order_item/order_item.dart';
+import 'package:tourists/module_orders/ui/widget/guide_order_item/guide_order_item.dart';
 
 @provide
 class GuideOrdersScreen extends StatefulWidget {
@@ -60,7 +60,11 @@ class _GuideOrdersScreenState extends State<GuideOrdersScreen> {
           FutureBuilder(
             future: _getAvailableOrders(),
             builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-              return snapshot.data;
+              if (snapshot.hasData) {
+                return snapshot.data;
+              } else {
+                return Container();
+              }
             },
           )
         ],
@@ -69,47 +73,68 @@ class _GuideOrdersScreenState extends State<GuideOrdersScreen> {
   }
 
   Widget _getLoadingUI() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [CircularProgressIndicator(), Text(S.of(context).loading)],
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(child: CircularProgressIndicator()),
+          Text(
+            S.of(context).loading,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _getErrorScreen() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text(S.of(context).error_fetching_data),
-        RaisedButton(
-          onPressed: () {
-            widget.bloc.getAvailableOrders();
-          },
-          child: Text(S.of(context).reload),
-        )
-      ],
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            S.of(context).error_fetching_data,
+            textAlign: TextAlign.center,
+          ),
+          RaisedButton(
+            onPressed: () {
+              widget.bloc.getAvailableOrders();
+            },
+            child: Text(S.of(context).reload),
+          )
+        ],
+      ),
     );
   }
 
   Future<Widget> _getAvailableOrders() async {
     List<Widget> orderCards = [];
-    User _user = await widget.auth.currentUser;
-
-    print('Got ' + ordersList.length.toString() + ' Length');
 
     if (ordersList != null) {
       ordersList.forEach((order) {
-        print(order.toJson().toString());
-        orderCards.add(OrderItemWidget(order,
-            canPay: _user.uid == order.touristUserID, onAcceptOrder: (order) {
-          widget.bloc.acceptOrder(order);
-        }, onAcceptAvailableOrder: (order) {
-          widget.bloc.acceptAvailableOrder(order);
-        }, onPayOrder: (order) {
-          widget.bloc.payOrder(order);
-        }, onPayAvailableOrder: (orderModel) {
-          widget.bloc.payAvailableOrder(orderModel);
-        }));
+        orderCards.add(GuideOrderItemWidget(
+          order,
+          onAcceptOrder: (order) {
+            print('Accept Order');
+            widget.bloc.acceptOrder(order);
+          },
+          onAcceptAvailableOrder: (order) {
+            print('Accept Available Order');
+            widget.bloc.acceptAvailableOrder(order);
+          },
+          onPayOrder: (order) {
+            print('Pay Order');
+            widget.bloc.payOrder(order);
+          },
+          onPayAvailableOrder: (orderModel) {
+            print('Pay available Order');
+            widget.bloc.payAvailableOrder(orderModel);
+          },
+        ));
       });
     }
 

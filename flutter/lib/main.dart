@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -15,7 +16,6 @@ import 'package:tourists/module_forms/forms_module.dart';
 import 'package:tourists/module_guide/guide_list_module.dart';
 import 'package:tourists/module_home/home_module.dart';
 import 'package:tourists/module_locations/location_module.dart';
-import 'package:tourists/module_locations/utils/UserLocationHelper.dart';
 import 'package:tourists/module_orders/order_module.dart';
 import 'package:tourists/module_profile/profile_module.dart';
 import 'package:tourists/module_search/search_module.dart';
@@ -24,7 +24,6 @@ import 'package:tourists/module_splash/ui/splash_routes.dart';
 import 'package:tourists/utils/language/language.dart';
 import 'package:tourists/utils/logger/logger.dart';
 import 'package:uni_links/uni_links.dart';
-
 import 'di/components/app.component.dart';
 import 'generated/l10n.dart';
 import 'module_chat/chat_module.dart';
@@ -39,21 +38,29 @@ void main() async {
   await Firebase.initializeApp();
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   FlutterError.onError = (FlutterErrorDetails details) {
+    print('Err: ' + details.exception.toString());
     FirebaseCrashlytics.instance.recordFlutterError(details);
   };
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-
   final container = await AppComponent.create();
-  runApp(container.app);
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    new Logger().error('Main', details.toString(), StackTrace.current);
+  };
+  await runZoned<Future<void>>(() async {
+    runApp(container.app);
+  }, onError: (error, stackTrace) {
+    new Logger().error(
+        'Main', error.toString() + stackTrace.toString(), StackTrace.current);
+  });
 }
 
 @provide
 class MyApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   final AuthorizationModule _authorizationModule;
   final HomeModule _homeModule;
@@ -69,35 +76,35 @@ class MyApp extends StatelessWidget {
   final SearchModule _searchModule;
   final ProfileModule _profileModule;
 
-  MyApp(this._languageHelper,
-      this._authorizationModule,
-      this._settingsModule,
-      this._homeModule,
-      this._splashModule,
-      this._chatModule,
-      this._locationModule,
-      this._guideListModule,
-      this._orderModule,
-      this._formsModule,
-      this._authService,
-      this._searchModule,
-      this._profileModule,);
+  MyApp(
+    this._languageHelper,
+    this._authorizationModule,
+    this._settingsModule,
+    this._homeModule,
+    this._splashModule,
+    this._chatModule,
+    this._locationModule,
+    this._guideListModule,
+    this._orderModule,
+    this._formsModule,
+    this._authService,
+    this._searchModule,
+    this._profileModule,
+  );
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       final PendingDynamicLinkData data =
-      await FirebaseDynamicLinks.instance.getInitialLink();
+          await FirebaseDynamicLinks.instance.getInitialLink();
       if (data?.link != null) {
         await _authService.verifyLoginLink(data.link.toString());
       }
       FirebaseDynamicLinks.instance.onLink(
           onSuccess: (PendingDynamicLinkData dynamicLink) async {
             await _authService.verifyLoginLink(data.link.toString());
-          }, onError: (OnLinkErrorException e) async {
-        print('onLinkError');
-        print(e.message);
-      });
+          },
+          onError: (OnLinkErrorException e) async {});
     }
   }
 
@@ -117,21 +124,12 @@ class MyApp extends StatelessWidget {
     fullRoutesList.addAll(_searchModule.getRoutes());
     fullRoutesList.addAll(_profileModule.getRoutes());
     try {
-      UserLocationHelper().getCurrentLocation().then((value) {
-        print(value.toString());
-      });
-
       getInitialLink().then((value) {
         if (value != null) {
-          print('Got Login Link: $value');
           _authService.verifyLoginLink(value);
-        } else {
-          Logger().info('Main', 'No Link :)');
         }
       });
-    } catch (e) {
-      print('No Initial Link');
-    }
+    } catch (e) {}
 
     return StreamBuilder(
       stream: _languageHelper.languageStream,
@@ -145,8 +143,8 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Widget getConfiguratedApp(Map<String, WidgetBuilder> fullRoutesList,
-      String currentLang) {
+  Widget getConfiguratedApp(
+      Map<String, WidgetBuilder> fullRoutesList, String currentLang) {
     return MaterialApp(
       navigatorObservers: <NavigatorObserver>[observer],
       locale: Locale(currentLang),
@@ -157,7 +155,9 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       theme: ThemeData(
-        primaryColor: Color(0xff05F29B), accentColor: Color(0xffF2DC6B),),
+        primaryColor: Color(0xff05F29B),
+        accentColor: Color(0xffF2DC6B),
+      ),
       supportedLocales: S.delegate.supportedLocales,
       title: 'Soyah',
       routes: fullRoutesList,

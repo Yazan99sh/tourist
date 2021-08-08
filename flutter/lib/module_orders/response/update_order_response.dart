@@ -8,7 +8,7 @@ class UpdateOrderResponse {
   UpdateOrderResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['Data'] != null ? new Data.fromJson(json['Data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -16,7 +16,7 @@ class UpdateOrderResponse {
     data['status_code'] = this.statusCode;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['Data'] = this.data.toJson();
     }
     return data;
   }
@@ -47,10 +47,10 @@ class Data {
     guidUserID = json['guidUserID'];
     city = json['city'];
     language = json['language'];
-    services = json['services'].cast<String>();
+    services = json['services']?.cast<String>();
     roomID = json['roomID'];
     status = json['status'];
-    cost = json['cost'];
+    cost = json['cost'].toString();
   }
 
   Map<String, dynamic> toJson() {

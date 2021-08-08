@@ -1,3 +1,4 @@
+import 'package:tourists/module_comment/response/comment/comment_response.dart';
 import 'package:tourists/module_shared/model/date/date.dart';
 
 class EventListResponse {
@@ -10,9 +11,9 @@ class EventListResponse {
   EventListResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    if (json['data'] != null) {
+    if (json['Data'] != null) {
       data = <Data>[];
-      json['data'].forEach((v) {
+      json['Data'].forEach((v) {
         data.add(new Data.fromJson(v));
       });
     }
@@ -23,7 +24,7 @@ class EventListResponse {
     data['status_code'] = this.statusCode;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['Data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -38,8 +39,9 @@ class Data {
   String status;
   String location;
   String description;
-  List<String> images;
-
+  var images;
+  List<CommentModel> comments;
+  var commentNumber;
   Data(
       {this.id,
       this.name,
@@ -49,7 +51,8 @@ class Data {
       this.status,
       this.location,
       this.description,
-      this.images});
+      this.images,
+      this.commentNumber});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -60,7 +63,20 @@ class Data {
     status = json['status'];
     location = json['location'];
     description = json['description'];
-    images = json['images'].cast<String>();
+    commentNumber = json['commentNumber'];
+    if (json['images'] != null) {
+      images = json['images'];
+      bool flag = images?.isEmpty;
+      if (flag) {
+        images = <String>[];
+      }
+    }
+    if (json['comments'] != null) {
+      comments = <CommentModel>[];
+      json['comments'].forEach((v) {
+        comments.add(new CommentModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {

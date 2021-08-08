@@ -39,7 +39,7 @@ class AuthService {
   // Delegates
   Future<bool> get isLoggedIn => _prefsHelper.isSignedIn();
 
-  Future<String> get userID => _prefsHelper.getUserId();
+  Future<String> get userID async => _auth.currentUser.uid;
 
   Future<UserRole> get userRole => _prefsHelper.getCurrentRole();
 
@@ -91,7 +91,6 @@ class AuthService {
 
     // This means that this guy is not registered
     if (existingProfile.data() == null) {
-
       // Create the profile password
       password = Uuid().v1();
 
@@ -100,7 +99,6 @@ class AuthService {
           .collection('users')
           .doc(user.credential.uid)
           .set({'password': password});
-
     } else {
       password = await existingProfile.data()['password'];
     }
@@ -110,7 +108,7 @@ class AuthService {
       userID: user.credential.email ?? user.credential.uid,
       password: password,
       // This should change from the API side
-      roles: user.userRole == UserRole.ROLE_GUIDE ? 'guid' : 'tourist',
+      role: user.userRole,
     ));
 
     await _loginApiUser(user.userRole, user.authSource);
@@ -121,6 +119,7 @@ class AuthService {
     if (user == null) {
       _auth.verifyPhoneNumber(
           phoneNumber: phone,
+          timeout: Duration(seconds:120),
           verificationCompleted: (authCredentials) {
             _auth.signInWithCredential(authCredentials).then((credential) {
               if (isRegister) {
@@ -174,12 +173,8 @@ class AuthService {
       var userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      if (isRegister) {
-        await _registerApiNewUser(
-            AppUser(userCredential.user, AuthSource.PHONE, role));
-      } else {
-        await _loginApiUser(role, AuthSource.GOOGLE);
-      }
+      await _registerApiNewUser(
+          AppUser(userCredential.user, AuthSource.PHONE, role));
     } catch (e) {
       Logger().error('AuthStateManager', e.toString(), StackTrace.current);
     }
@@ -204,9 +199,9 @@ class AuthService {
     await _auth.sendSignInLinkToEmail(
       email: email,
       actionCodeSettings: ActionCodeSettings(
-          url: 'https://soyah.page.link/' + Uuid().v1(),
+          url: 'https://yestourists.page.link/',
           androidPackageName: 'com.fast_prog.soyah',
-          iOSBundleId: 'de.yes-soft.soyah',
+          iOSBundleId: 'de.yes-soft.tourists',
           handleCodeInApp: true,
           androidMinimumVersion: '21',
           androidInstallApp: true),
@@ -218,8 +213,9 @@ class AuthService {
     var role = await _prefsHelper.getCurrentRole();
     try {
       var userCredential =
-      await _auth.signInWithEmailLink(email: email, emailLink: link);
-      await _registerApiNewUser(AppUser(userCredential.user, AuthSource.EMAIL, role));
+          await _auth.signInWithEmailLink(email: email, emailLink: link);
+      await _registerApiNewUser(
+          AppUser(userCredential.user, AuthSource.EMAIL, role));
     } catch (e) {
       if (e is FirebaseAuthException) {
         FirebaseAuthException x = e;
@@ -324,16 +320,10 @@ class AuthService {
   }
 
   /// refresh API token, this is done using Firebase Token Refresh
-  Future<String> refreshToken() async {
-    String uid = await _prefsHelper.getUserId();
-    String password = await _prefsHelper.getPassword();
-    String email = await _prefsHelper.getEmail();
-    LoginResponse loginResponse = await _authManager.login(LoginRequest(
-      username: email ?? uid,
-      password: password,
-    ));
-    await _prefsHelper.setToken(loginResponse.token);
-    return loginResponse.token;
+  Future<void> refreshToken() async {
+    var source = await _prefsHelper.getAuthSource();
+    var role = await _prefsHelper.getCurrentRole();
+    await _loginApiUser(role, source);
   }
 
   /// apple specific function

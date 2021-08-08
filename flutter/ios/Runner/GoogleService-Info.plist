@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>306204376848-atl4mbtihs9ch4hdpd45e1b09921k649.apps.googleusercontent.com</string>
+	<string>396882908080-msasa67tt9l0v5j3qp95ad4bkf29lbfp.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.306204376848-atl4mbtihs9ch4hdpd45e1b09921k649</string>
+	<string>com.googleusercontent.apps.396882908080-msasa67tt9l0v5j3qp95ad4bkf29lbfp</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>306204376848-ircjq2sf21sge5v11vij997drhf0n6tr.apps.googleusercontent.com</string>
+	<string>396882908080-22grsjhkbbp78qed8hamrie7vcu1ah48.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCVhYsdKJIfhTHNTc9MTaKeVfkDN1yrdGc</string>
+	<string>AIzaSyDJ9fg6e7-4xhfiif9ahtDE27ZXet5IkvU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>306204376848</string>
+	<string>396882908080</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.fastprog.soyah</string>
+	<string>de.yes-soft.tourists</string>
 	<key>PROJECT_ID</key>
-	<string>sohay-693df</string>
+	<string>yes-soft-6866a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sohay-693df.appspot.com</string>
+	<string>yes-soft-6866a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:306204376848:ios:e84ac1506728268a42af95</string>
+	<string>1:396882908080:ios:ac158f29f6e88d02fabc75</string>
 	<key>DATABASE_URL</key>
-	<string>https://sohay-693df.firebaseio.com</string>
+	<string>https://yes-soft-6866a.firebaseio.com</string>
 </dict>
 </plist>

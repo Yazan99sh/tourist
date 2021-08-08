@@ -32,8 +32,10 @@ class LocationListBloc {
       if (locationList != null) {
         _logger.info(
             TAG, 'Got this many locations ' + locationList.length.toString());
-        _stateSubject.add(
-            {KEY_STATUS: STATUS_CODE_LOAD_SUCCESS, KEY_PAYLOAD: locationList});
+        _stateSubject.add({
+          KEY_STATUS: STATUS_CODE_LOAD_SUCCESS,
+          KEY_PAYLOAD: locationList,
+        });
       } else {
         _stateSubject.add({KEY_STATUS: STATUS_CODE_LOAD_ERROR});
       }

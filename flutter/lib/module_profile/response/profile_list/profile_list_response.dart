@@ -10,14 +10,14 @@ class ProfileListResponse {
   ProfileListResponse.fromJson(Map<String, dynamic> json) {
     statusCode = json['status_code'];
     msg = json['msg'];
-    if (json['data'] != null) {
-      if (json['data'] is List) {
+    if (json['Data'] != null) {
+      if (json['Data'] is List) {
         data = <ProfileResponse>[];
-        json['data'].forEach((v) {
+        json['Data'].forEach((v) {
           data.add(new ProfileResponse.fromJson(v));
         });
       } else {
-        data = [new ProfileResponse.fromJson(json['data'])];
+        data = [new ProfileResponse.fromJson(json['Data'])];
       }
     }
   }
@@ -27,7 +27,7 @@ class ProfileListResponse {
     data['status_code'] = this.statusCode;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['Data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
   }

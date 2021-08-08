@@ -68,10 +68,10 @@ class _LocationListScreenState extends State<LocationListScreen> {
           child: Padding(
             padding: EdgeInsets.all(8),
             child: LocationListItemWidget(
-              imageLink: location.path[0].path,
+              imageLink:location.path.length!=0?location.path[0].path:'https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg',
               title: location.name,
               description: location.description,
-              rate: location.ratingAverage ?? 5,
+              rate: double.parse(location.ratingAverage).floor() ?? 0,
               commentsNumber: location.commentNumber != null
                   ? int.parse(location.commentNumber)
                   : 0,
@@ -81,9 +81,11 @@ class _LocationListScreenState extends State<LocationListScreen> {
       });
     }
 
-    return Flex(
-      direction: Axis.vertical,
-      children: locationWidgetList,
+    return SingleChildScrollView(
+      child: Flex(
+        direction: Axis.vertical,
+        children: locationWidgetList,
+      ),
     );
   }
 
@@ -111,7 +113,7 @@ class _LocationListScreenState extends State<LocationListScreen> {
       direction: Axis.vertical,
       children: <Widget>[
         CircularProgressIndicator(),
-        Text('Loading Data from Network')
+        Text('${S.of(context).loading}')
       ],
     );
   }

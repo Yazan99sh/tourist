@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tourists/generated/l10n.dart';
 
 class NewCommentWidget extends StatelessWidget {
   final Function(String) onCommentAdded;
   final bool active;
+  final TextEditingController commentController;
 
-  final TextEditingController commentController = TextEditingController();
-
-  NewCommentWidget({@required this.onCommentAdded, @required this.active});
+  NewCommentWidget({
+    @required this.onCommentAdded,
+    this.active = true,
+    @required this.commentController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +22,19 @@ class NewCommentWidget extends StatelessWidget {
           flex: 3,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
+            child: TextField(
               controller: commentController,
-              decoration: InputDecoration(hintText: 'Comment Here'),
+              onEditingComplete: () {
+                var node = FocusScope.of(context);
+                node.unfocus();
+              },
+              // onFieldSubmitted: (s) {
+              //   //createComment();
+              //   var node = FocusScope.of(context);
+              //   node.unfocus();
+              // },
+              decoration:
+                  InputDecoration(hintText: '${S.of(context).commentHere}'),
             ),
           ),
         ),
@@ -55,7 +69,6 @@ class NewCommentWidget extends StatelessWidget {
     if (commentController.text.isNotEmpty) {
       onCommentAdded(commentController.text);
     }
-
     commentController.clear();
   }
 }

@@ -46,12 +46,20 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(),
-      body: SafeArea(
-        child: _currentStates.getUI(context),
+    return GestureDetector(
+      onTap: () {
+        var focus = FocusScope.of(context);
+        if (focus.canRequestFocus) {
+          focus.unfocus();
+        }
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(),
+        body: SafeArea(
+          child: _currentStates.getUI(context),
+        ),
       ),
     );
   }
@@ -63,8 +71,7 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void moveToNext() {
-    Navigator.of(context).pushReplacementNamed(
-        ProfileRoutes.MY_ROUTE_PROFILE);
+    Navigator.of(context).pushReplacementNamed(ProfileRoutes.MY_ROUTE_PROFILE);
   }
 
   void loginViaPhone(String phoneNumber, UserRole role) {
@@ -72,11 +79,11 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void loginViaGoogle(UserRole role) {
+    currentUserRole = role;
     widget._stateManager.loginViaGoogle(this, role);
   }
 
   void sendLoginLink(String email, UserRole role) {
-    print('Sending Email to $email');
     widget._stateManager.sendLoginLink(this, email, role);
   }
 
@@ -89,7 +96,6 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void confirmSMS(String smsCode) {
-    currentUserRole = UserRole.ROLE_GUIDE;
     widget._stateManager.confirmSMSCode(smsCode, this);
   }
 

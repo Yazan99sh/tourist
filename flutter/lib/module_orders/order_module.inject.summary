@@ -25,6 +25,13 @@
                 "qualifier": null
               },
               "isProvider": false
+            },
+            {
+              "lookupKey": {
+                "root": "asset:tourists/lib/module_orders/ui/screen/guide_orders/guide_orders.dart#GuideOrdersScreen",
+                "qualifier": null
+              },
+              "isProvider": false
             }
           ]
         }

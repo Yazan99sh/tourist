@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:tourists/generated/l10n.dart';
+import 'package:tourists/module_locations/location_routes.dart';
+import 'package:tourists/module_locations/model/location_list_item/location_list_item.dart';
 import 'package:tourists/module_search/bloc/search_bloc/search_bloc.dart';
 
 @provide
@@ -15,7 +19,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String currentLocation;
   bool showPredictions = true;
-  Map<String, String> predictions = {};
+  List<LocationListItem> predictions = [];
 
   final _searchController = TextEditingController();
 
@@ -33,47 +37,64 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _searchController,
-                onChanged: (query) {
-                  if (query.isNotEmpty) {
-                    showPredictions = true;
-                    widget.bloc.getPredictions(query);
-                  }
-                },
-              ),
-            ),
-            showPredictions ? buildPredictionList(predictions) : Container(),
-          ],
+      appBar: AppBar(
+        title: TextFormField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            hintText: S.of(context).search,
+            labelText: S.of(context).search,
+          ),
+          onChanged: (query) {
+            if (query.isNotEmpty) {
+              showPredictions = true;
+              widget.bloc.getPredictions(query);
+            }
+          },
         ),
+      ),
+      body: Column(
+        children: [
+          buildPredictionList(predictions),
+        ],
       ),
     );
   }
 
-  Widget buildPredictionList(Map<String, String> predictions) {
+  Widget buildPredictionList(List<LocationListItem> predictions) {
     var tiles = <Widget>[];
 
-    predictions.forEach((key, value) {
+    predictions.forEach((val) {
       tiles.add(GestureDetector(
         onTap: () {
-          showPredictions = false;
-          _searchController.text = key;
-          if (mounted) setState(() {});
+          Navigator.of(context).pushNamed(
+            LocationRoutes.locationDetails,
+            arguments: val.id,
+          );
         },
-        child: ListTile(
-          title: Text(' ' + key),
+        child: Card(
+          child: ListTile(
+            leading: Container(
+              height: 75,
+              width: 75,
+              child: Image.network(val.path[0].path,fit: BoxFit.cover,),
+            ),
+            title: Text('${val.name}'),
+            subtitle: Text(
+              '${val.description}',
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: SmoothStarRating(
+              isReadOnly: true,
+              color: Colors.black,
+              borderColor: Colors.black,
+              starCount: 5,
+              rating: double.parse(val.ratingAverage),
+              size: 12,
+            ),
+          ),
         ),
       ));
     });
-
-    if (tiles.length > 3) {
-      tiles = tiles.sublist(0, 3);
-    }
 
     return Flex(
       direction: Axis.vertical,

@@ -27,8 +27,10 @@ class GuideOrdersListBloc {
     _stateSubject.add({KEY_STATUS: STATUS_CODE_LOADING});
     _ordersService.getAllPossibleOrders().then((ordersList) {
       if (ordersList != null) {
-        _stateSubject.add(
-            {KEY_STATUS: STATUS_CODE_LOAD_SUCCESS, KEY_PAYLOAD: ordersList});
+        _stateSubject.add({
+          KEY_STATUS: STATUS_CODE_LOAD_SUCCESS,
+          KEY_PAYLOAD: ordersList,
+        });
       } else {
         _stateSubject.add({KEY_STATUS: STATUS_CODE_LOAD_ERROR});
       }

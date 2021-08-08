@@ -12,8 +12,6 @@ class RatingRepository {
   Future<bool> postRating(CreateRatingRequest request) async {
     Map response = await this._client.post(Urls.rate, request.toJson());
 
-    print(response);
-
     if (response == null) return false;
     return true;
   }

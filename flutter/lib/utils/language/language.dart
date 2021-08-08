@@ -12,15 +12,14 @@ class LanguageHelper {
 
   LanguageHelper(this._prefsHelper);
 
-  void getLanguage() {
-    _prefsHelper.getCurrentLocal().then((value) {
-      _languageSubject.add(value);
-    });
+  Future<String> getLanguage() async {
+    var lang = await _prefsHelper.getCurrentLocal();
+    _languageSubject.add(lang);
+    return lang;
   }
 
   void setLanguage(String newLang) {
     _prefsHelper.setCurrentLocal(newLang).then((value) {
-      print('Updating Local to: $newLang');
       _languageSubject.add(newLang);
     });
   }

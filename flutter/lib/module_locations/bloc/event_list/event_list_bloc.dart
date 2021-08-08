@@ -1,8 +1,12 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tourists/module_comment/manager/comment/comment_service.dart';
+import 'package:tourists/module_comment/request/create_comments/create_comments.dart';
+import 'package:tourists/module_comment/response/create_comment/create_comment_response.dart';
 import 'package:tourists/module_locations/model/event/event_model.dart';
 import 'package:tourists/module_locations/service/event/event_service.dart';
+import 'package:tourists/module_persistence/sharedpref/shared_preferences_helper.dart';
 
 @provide
 class EventListBloc {
@@ -16,7 +20,8 @@ class EventListBloc {
 
   final EventService _eventService;
 
-  EventListBloc(this._eventService);
+  EventListBloc(
+      this._eventService);
 
   final PublishSubject<Pair<int, List<EventModel>>> _eventSubject =
       new PublishSubject<Pair<int, List<EventModel>>>();

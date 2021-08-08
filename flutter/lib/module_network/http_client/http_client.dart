@@ -10,42 +10,46 @@ import 'package:tourists/utils/logger/logger.dart';
 
 @provide
 class HttpClient extends NetworkClient {
-  Dio _client;
+  final _client = Dio(BaseOptions(
+    baseUrl: Urls.baseAPI,
+    connectTimeout: 5000,
+    receiveTimeout: 5000,
+    sendTimeout: 5000,
+  ));
+
   final _logger = Logger();
   final performanceInterceptor = DioFirebasePerformanceInterceptor();
   final String tag = 'HttpClient';
 
   HttpClient() {
-    _client = new Dio(BaseOptions());
     _client.interceptors
         .add(DioCacheManager(CacheConfig(baseUrl: Urls.baseAPI)).interceptor);
+    _client.interceptors.add(performanceInterceptor);
   }
-  Future<Map<String, dynamic>> get(String url, {
-    Map<String, String> queryParams,
+
+  @override
+  Future<Map<String, dynamic>> get(
+    String url, {
+    Map<String, dynamic> queryParams,
     Map<String, String> headers,
   }) async {
     try {
       _logger.info(tag, 'Requesting GET to: ' + url);
       _logger.info(tag, 'Headers: ' + headers.toString());
       _logger.info(tag, 'Query: ' + queryParams.toString());
-      Dio client = Dio(BaseOptions(
-        sendTimeout: 60000,
-        receiveTimeout: 60000,
-        connectTimeout: 60000,
-      ));
-      client.interceptors.add(performanceInterceptor);
 
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');
-          client.options.headers['Authorization'] = headers['Authorization'];
+          _client.options.headers['Authorization'] = headers['Authorization'];
         }
       }
-      var response = await client.get(
+      var response = await _client.get(
         url,
         queryParameters: queryParams,
       );
       return _processResponse(response);
+
     } catch (e) {
       if (e is DioError) {
         DioError err = e;
@@ -62,16 +66,13 @@ class HttpClient extends NetworkClient {
     }
   }
 
-  Future<Map<String, dynamic>> post(String url,
-      Map<String, dynamic> payLoad, {
-        Map<String, String> queryParams,
-        Map<String, String> headers,
-      }) async {
-    Dio client = Dio(BaseOptions(
-      sendTimeout: 60000,
-      receiveTimeout: 60000,
-      connectTimeout: 60000,
-    ));
+  @override
+  Future<Map<String, dynamic>> post(
+    String url,
+    Map<String, dynamic> payLoad, {
+    Map<String, String> queryParams,
+    Map<String, String> headers,
+  }) async {
     try {
       _logger.info(tag, 'Requesting Post to: ' + url);
       _logger.info(tag, 'POST: ' + jsonEncode(payLoad));
@@ -79,11 +80,11 @@ class HttpClient extends NetworkClient {
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');
-          client.options.headers['Authorization'] = headers['Authorization'];
+          _client.options.headers['Authorization'] = headers['Authorization'];
         }
       }
-      client.interceptors.add(performanceInterceptor);
-      var response = await client.post(
+      _client.interceptors.add(performanceInterceptor);
+      var response = await _client.post(
         url,
         queryParameters: queryParams,
         data: json.encode(payLoad),
@@ -92,15 +93,11 @@ class HttpClient extends NetworkClient {
     } catch (e) {
       if (e is DioError) {
         DioError err = e;
-        if (err != null) {
-          if (err.response != null) {
-            if (err.response.statusCode != 404) {
-              _logger.error(
-                  tag, err.message + ', POST: ' + url, StackTrace.current);
-              return null;
-            }
-          }
+        if (err?.response?.statusCode != 404) {
+          _logger.error(
+              tag, err.message + ', POST: ' + url, StackTrace.current);
         }
+        return null;
       } else {
         _logger.error(tag, e.toString() + ', POST: ' + url, StackTrace.current);
         return null;
@@ -108,30 +105,26 @@ class HttpClient extends NetworkClient {
     }
   }
 
-  Future<Map<String, dynamic>> put(String url,
-      Map<String, dynamic> payLoad, {
-        Map<String, String> queryParams,
-        Map<String, String> headers,
-      }) async {
+  @override
+  Future<Map<String, dynamic>> put(
+    String url,
+    Map<String, dynamic> payLoad, {
+    Map<String, String> queryParams,
+    Map<String, String> headers,
+  }) async {
     try {
       _logger.info(tag, 'Requesting PUT to: ' + url);
       _logger.info(tag, 'PUT: ' + jsonEncode(payLoad));
 
-      Dio client = Dio(BaseOptions(
-        sendTimeout: 60000,
-        receiveTimeout: 60000,
-        connectTimeout: 60000,
-      ));
-
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');
-          client.options.headers['Authorization'] = headers['Authorization'];
+          _client.options.headers['Authorization'] = headers['Authorization'];
         }
       }
 
-      client.interceptors.add(performanceInterceptor);
-      var response = await client.put(
+      _client.interceptors.add(performanceInterceptor);
+      var response = await _client.put(
         url,
         queryParameters: queryParams,
         data: json.encode(payLoad),
@@ -151,7 +144,8 @@ class HttpClient extends NetworkClient {
     }
   }
 
-  Future<Map<String, dynamic>> delete(String url, {
+  Future<Map<String, dynamic>> delete(
+    String url, {
     Map<String, String> queryParams,
     Map<String, String> headers,
   }) async {
@@ -159,19 +153,15 @@ class HttpClient extends NetworkClient {
       _logger.info(tag, 'Requesting DELETE to: ' + url);
       _logger.info(tag, 'Headers: ' + headers.toString());
       _logger.info(tag, 'Query: ' + queryParams.toString());
-      Dio client = Dio(BaseOptions(
-        sendTimeout: 60000,
-        receiveTimeout: 60000,
-        connectTimeout: 60000,
-      ));
-      client.interceptors.add(performanceInterceptor);
+
+      _client.interceptors.add(performanceInterceptor);
       if (headers != null) {
         if (headers['Authorization'] != null) {
           _logger.info(tag, 'Adding Auth Header');
-          client.options.headers['Authorization'] = headers['Authorization'];
+          _client.options.headers['Authorization'] = headers['Authorization'];
         }
       }
-      var response = await client.delete(
+      var response = await _client.delete(
         url,
         queryParameters: queryParams,
       );
@@ -180,25 +170,29 @@ class HttpClient extends NetworkClient {
       if (e is DioError) {
         DioError err = e;
         if (err.response.statusCode != 404) {
-          _logger.error(tag, err.message + ', DELETE: ' + url, StackTrace.current);
+          _logger.error(
+              tag, err.message + ', DELETE: ' + url, StackTrace.current);
         }
       } else {
-        _logger.error(tag, e.toString() + ', DELETE: ' + url, StackTrace.current);
+        _logger.error(
+            tag, e.toString() + ', DELETE: ' + url, StackTrace.current);
       }
       return null;
     }
   }
 
   Map<String, dynamic> _processResponse(Response response) {
+    _logger.info(tag, 'Processing Response');
     if (response.statusCode >= 200 && response.statusCode < 400) {
       _logger.info(tag, response.data.toString());
       return response.data;
     } else if (response.statusCode <= 400 && response.statusCode < 500) {
+      _logger.error(tag,
+          '${response.statusCode}\n\nBad Request: ${response.data} \n${StackTrace.current}');
       return null;
     } else {
       _logger.error(tag,
-          response.statusCode.toString() + '\n\n' + response.data.toString(),
-          StackTrace.current);
+          '${response.statusCode}\n\nUnknown Error from response: ${response.data} \n${StackTrace.current}');
       return null;
     }
   }

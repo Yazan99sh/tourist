@@ -1,68 +1,61 @@
-import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:inject/inject.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tourists/module_forms/user_orders_module/model/request_guide/request_guide.model.dart';
 import 'package:tourists/module_forms/user_orders_module/service/request_guide/request_guide.service.dart';
+import 'package:tourists/module_forms/user_orders_module/ui/screens/request_guide/request_guide_screen.dart';
+import 'package:tourists/module_forms/user_orders_module/ui/states/request_guide_form.dart';
+import 'package:tourists/module_forms/user_orders_module/ui/states/request_guide_form_state_all_mode.dart';
+import 'package:tourists/module_forms/user_orders_module/ui/states/request_guide_form_state_error.dart';
+import 'package:tourists/module_forms/user_orders_module/ui/states/request_guide_form_state_guide_mode.dart';
+import 'package:tourists/module_forms/user_orders_module/ui/states/request_guide_form_state_loading.dart';
+import 'package:tourists/module_forms/user_orders_module/ui/states/request_guide_form_state_location_mode.dart';
+import 'package:tourists/module_forms/user_orders_module/ui/states/request_guide_form_state_success.dart';
 import 'package:tourists/module_locations/service/location_details/location_details_service.dart';
 
 @provide
 class RequestGuideBloc {
-  static const int STATUS_CODE_INIT = 512;
-  static const int STATUS_CODE_LOAD_ERROR = 613;
-  static const int STATUS_CODE_LOAD_SUCCESS = 714;
-  static const int STATUS_CODE_REQUEST_SUCCESS = 815;
-  static const int STATUS_CODE_REQUEST_ERROR = 916;
-
   // Services and DI
   final RequestGuideService _requestGuideService;
   final LocationDetailsService _locationDetailsService;
 
   RequestGuideBloc(this._requestGuideService, this._locationDetailsService);
 
-  final PublishSubject<Pair<int, dynamic>> _requestGuideForm =
+  final PublishSubject<RequestGuideFormState> _stateStream =
       new PublishSubject();
 
-  Stream<Pair<int, dynamic>> get guideInfoStream => _requestGuideForm.stream;
+  Stream<RequestGuideFormState> get guideInfoStream => _stateStream.stream;
 
-  void requestGuide(String guideId, List<String> requiredServices,
-      DateTime arrivalDate, int stayingDays, String language, String location) {
-    print('Requesting Guide');
-    _requestGuideService
-        .requestGuide(RequestGuideModel(
-            services: requiredServices,
-            arrivalDate: arrivalDate,
-            stayingDays: stayingDays,
-            language: language,
-            guideId: guideId,
-            location: location))
-        .then((requestSuccess) {
-      print('Requesting Guide Complete');
-      if (requestSuccess != null) {
-        _requestGuideForm
-            .add(Pair(STATUS_CODE_REQUEST_SUCCESS, requestSuccess));
-      } else {
-        _requestGuideForm.add(Pair(STATUS_CODE_REQUEST_ERROR, null));
-      }
+  void requestGuide(RequestGuideScreen screen, RequestGuideModel request) {
+    _stateStream.add(RequestGuideFormStateLoading(screen));
+    _requestGuideService.requestGuide(request).then((value) {
+      _stateStream.add(RequestGuideFormStateSuccess(screen));
     });
   }
 
-  void getGuideWithId(String guid) {
-    _requestGuideService.getGuideInfoWithId(guid).then((guideInfo) {
-      if (guideInfo != null) {
-        _requestGuideForm.add(Pair(STATUS_CODE_LOAD_SUCCESS, guideInfo));
-      } else {
-        _requestGuideForm.add(Pair(STATUS_CODE_LOAD_ERROR, null));
-      }
-    });
-  }
-
-  void getLocationWithId(String locationId) {
-    _locationDetailsService.getLocationDetails(locationId).then((value) {
-      if (value != null) {
-        _requestGuideForm.add(Pair(STATUS_CODE_LOAD_SUCCESS, value));
-      } else {
-        _requestGuideForm.add(Pair(STATUS_CODE_LOAD_ERROR, null));
-      }
-    });
+  void requestInfo(
+      RequestGuideScreen screen, String guideId, String locationId) {
+    _stateStream.add(RequestGuideFormStateLoading(screen));
+    if (locationId != null && guideId != null) {
+      Future.wait([
+        _requestGuideService.getGuideInfoWithId(guideId),
+        _locationDetailsService.getLocationDetails(locationId)
+      ]).then((value) {
+        _stateStream.add(RequestGuideFormStateAllMode(
+          screen,
+          value[1],
+          value[0],
+        ));
+      });
+    } else if (locationId != null && guideId == null) {
+      _locationDetailsService.getLocationDetails(locationId).then((value) {
+        _stateStream.add(RequestGuideFormStateLocationMode(screen, value));
+      });
+    } else if (locationId == null && guideId != null) {
+      _requestGuideService.getGuideInfoWithId(guideId).then((value) {
+        _stateStream.add(RequestGuideFormStateGuideMode(screen, value));
+      });
+    } else {
+      _stateStream.add(RequestGuideFormStateError(screen, 'Error Loading Arguments!'));
+    }
   }
 }

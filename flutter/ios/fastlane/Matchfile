@@ -1,5 +1,5 @@
 git_url("git@github.com:yes-soft-de/flutter_keys.git")
-git_branch("soyah")
+git_branch("tourists")
 storage_mode("git")
-app_identifier(["de.yes-soft.soyah"])
+app_identifier(["de.yes-soft.tourists"])
 username(ENV['FASTLANE_USER'])

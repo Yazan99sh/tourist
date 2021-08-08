@@ -25,7 +25,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.396882908080-ju46hrqja5s0g9gkk9ad99m1vdkk1ah5</string>
+				<string>com.googleusercontent.apps.396882908080-msasa67tt9l0v5j3qp95ad4bkf29lbfp</string>
 			</array>
 		</dict>
 	</array>
@@ -33,6 +33,12 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need to access location to sort your orders</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need to access location to sort your orders</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need to access your profile photo</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

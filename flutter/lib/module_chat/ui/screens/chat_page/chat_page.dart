@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
+import 'package:tourists/generated/l10n.dart';
 import 'package:tourists/module_chat/bloc/chat_page/chat_page.bloc.dart';
 import 'package:tourists/module_chat/model/chat/chat_model.dart';
 import 'package:tourists/module_chat/ui/widget/chat_bubble/chat_bubble.dart';
@@ -31,13 +32,11 @@ class ChatPageState extends State<ChatPage> {
     chatRoomId = ModalRoute.of(context).settings.arguments.toString();
 
     if (currentState == ChatPageBloc.STATUS_CODE_INIT) {
-      print('Chat Room: ' + chatRoomId);
       widget._chatPageBloc.getMessages(chatRoomId);
     }
 
     widget._chatPageBloc.chatBlocStream.listen((event) {
       currentState = event.first;
-      print('Got Event');
       if (event.first == ChatPageBloc.STATUS_CODE_GOT_DATA) {
         _chatMessagesList = event.last;
         if (chatsMessagesWidgets.length == _chatMessagesList.length) {
@@ -56,7 +55,7 @@ class ChatPageState extends State<ChatPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           AppBar(
-            title: Text('Chat Room'),
+            title: Text('${S.of(context).chatRoom}'),
           ),
           Expanded(
             child: chatsMessagesWidgets != null
@@ -65,7 +64,7 @@ class ChatPageState extends State<ChatPage> {
                     reverse: false,
                   )
                 : Center(
-                    child: Text('Loading'),
+                    child: Text('${S.of(context).loading}'),
                   ),
           ),
           Flex(
@@ -76,7 +75,7 @@ class ChatPageState extends State<ChatPage> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                   child: TextField(
-                    decoration: InputDecoration(hintText: 'Start Writing'),
+                    decoration: InputDecoration(hintText: '${S.of(context).startWriting}'),
                     controller: _msgController,
                   ),
                 ),

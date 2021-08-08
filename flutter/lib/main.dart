@@ -24,7 +24,6 @@ import 'package:tourists/module_splash/ui/splash_routes.dart';
 import 'package:tourists/utils/language/language.dart';
 import 'package:tourists/utils/logger/logger.dart';
 import 'package:uni_links/uni_links.dart';
-
 import 'di/components/app.component.dart';
 import 'generated/l10n.dart';
 import 'module_chat/chat_module.dart';

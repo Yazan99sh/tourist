@@ -8,16 +8,18 @@ class ProfileModel {
   List<String> languages = <String>[];
   List<String> services = <String>[];
   List<LocationListItem> availableLocations = <LocationListItem>[];
-
-  ProfileModel({
-    this.name,
-    this.image,
-    this.locations,
-    this.languages,
-    this.availableLocations,
-    this.phone,
-    this.services,
-  }) {
+  String imageUrl;
+  bool imageUpdated;
+  ProfileModel(
+      {this.name,
+      this.image,
+      this.locations,
+      this.languages,
+      this.availableLocations,
+      this.phone,
+      this.services,
+      this.imageUrl,
+      this.imageUpdated}) {
     if (this.languages == null) {
       this.languages = [];
     }

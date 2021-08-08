@@ -196,7 +196,7 @@ class _RequestLocationFormWidgetState extends State<RequestLocationFormWidget> {
             ));
           },
           color: Colors.greenAccent,
-          child: Text(S.of(context).requestAChat),
+          child: Text(S.of(context).createNewOrder),
         ),
       ],
     );

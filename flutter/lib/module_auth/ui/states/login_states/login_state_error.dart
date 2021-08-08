@@ -1,3 +1,4 @@
+import 'package:tourists/generated/l10n.dart';
 import 'package:tourists/module_auth/enums/user_type.dart';
 import 'package:tourists/module_auth/ui/screen/login_screen/login_screen.dart';
 import 'package:tourists/module_auth/ui/states/login_states/login_state.dart';
@@ -15,8 +16,8 @@ class LoginStateError extends LoginState {
   String password;
   UserRole role;
 
-  LoginStateError(
-      LoginScreenState screen, this.errorMsg, this.email, this.password, this.role)
+  LoginStateError(LoginScreenState screen, this.errorMsg, this.email,
+      this.password, this.role)
       : super(screen);
 
   @override
@@ -44,10 +45,23 @@ class LoginStateError extends LoginState {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(errorMsg, maxLines: 3,),
+            child: Text(
+              errorMessage(context, errorMsg),
+              maxLines: 3,
+            ),
           )
         ],
       ),
     );
+  }
+
+  String errorMessage(BuildContext context, String error) {
+    if (error == 'Code Timeout') {
+      return S.of(context).codeTimeout;
+    } else if (error == 'Error finding the profile, please register first') {
+      return S.of(context).errorFindingProfile;
+    } else {
+      return error;
+    }
   }
 }

@@ -97,7 +97,7 @@ class GuideOrderItemWidget extends StatelessWidget {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.all(8),
-                          child: Text(orderModel.city ?? ''),
+                          child: Container(width: 100,child: Text(orderModel.city ?? '',overflow: TextOverflow.ellipsis,)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(8),
@@ -178,7 +178,7 @@ class GuideOrderItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Pending',
+                      '${S.of(context).pending}',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Container(
@@ -205,7 +205,7 @@ class GuideOrderItemWidget extends StatelessWidget {
     return Flex(
       direction: Axis.vertical,
       children: [
-        Text('Pending Payment'),
+        Text('${S.of(context).pendingPayment}'),
         Flex(
           direction: Axis.horizontal,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,7 +231,7 @@ class GuideOrderItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Pending Payment',
+                      '${S.of(context).pendingPayment}',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Container(
@@ -282,7 +282,7 @@ class GuideOrderItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'On Going',
+                      '${S.of(context).onGoing}',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Container(
@@ -337,7 +337,7 @@ class GuideOrderItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Finished',
+                  '${S.of(context).finished}',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Container(

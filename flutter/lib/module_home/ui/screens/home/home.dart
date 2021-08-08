@@ -173,6 +173,10 @@ class HomeScreenState extends State<HomeScreen> {
             if (position != 3) {
               prePostion = position;
             }
+            if (pos == 3 && position == 3) {
+              _changePosition(prePostion);
+              return true;
+            }
             _changePosition(pos);
             return true;
           },
@@ -195,14 +199,13 @@ class HomeScreenState extends State<HomeScreen> {
     return FutureBuilder(
       future: widget._authService.userRole,
       builder: (BuildContext context, AsyncSnapshot<UserRole> snapshot) {
-        print(loggedIn);
         if (snapshot.hasData && loggedIn) {
           return Flex(
             direction: Axis.vertical,
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                    Navigator.of(context).pushNamed(OrdersRoutes.ordersList);
+                  Navigator.of(context).pushNamed(OrdersRoutes.ordersList);
                 },
                 child: Container(
                   color: Colors.white,
@@ -307,6 +310,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void _changePosition(position) {
+    print(position);
     if (position == null) {
       position = 0;
     }

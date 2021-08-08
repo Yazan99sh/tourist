@@ -28,7 +28,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
   List<CommentModel> displayedComments;
   int currentPage = 0;
   bool canShowMore = false;
-
+  TextEditingController controller;
   _CommentListWidgetState(List<CommentModel> comments) {
     if (comments == null) {
       allComments = [];
@@ -41,11 +41,26 @@ class _CommentListWidgetState extends State<CommentListWidget> {
       }
     });
   }
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
     if (allComments == null) return Container();
-
+    if (widget.comments.length > allComments.length) {
+      allComments = [];
+      allComments.addAll(widget.comments.reversed);
+      try {
+        displayedComments =
+            allComments.sublist(0, widget.pageSize * (1 + currentPage));
+      } catch (e) {
+        displayedComments = allComments;
+        canShowMore = false;
+      }
+    }
     if (allComments.length > widget.pageSize) {
       canShowMore = true;
     }
@@ -57,12 +72,12 @@ class _CommentListWidgetState extends State<CommentListWidget> {
       displayedComments = allComments;
       canShowMore = false;
     }
-
     List<Widget> comments = [];
 
     if (widget.isLoggedIn) {
       comments.add(
         NewCommentWidget(
+          commentController: controller,
           onCommentAdded: (comment) {
             widget.onCommentPosted(comment);
           },
@@ -76,7 +91,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
             AuthorizationRoutes.LOGIN_SCREEN,
           );
         },
-        child: Text('Please Login!'),
+        child: Text('${S.of(context).loginPlease}!'),
       ));
     }
 
@@ -85,6 +100,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
         return;
       }
       comments.add(CommentItemWidget(
+        userImage: element.userImage ?? '',
         comment: element.comment,
         userName: element.userName,
         role: element.roles[0],
@@ -96,7 +112,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
     if (comments.length == 1) {
       comments.add(Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text('Be the First to comment'),
+        child: Text('${S.of(context).firstComment}'),
       ));
     }
 
@@ -114,5 +130,14 @@ class _CommentListWidgetState extends State<CommentListWidget> {
       direction: Axis.vertical,
       children: comments,
     );
+  }
+
+  String imageLink(String url) {
+    print(url.allMatches('/'));
+    if (url.allMatches('http').length > 1) {
+      return url.substring(35);
+    } else {
+      return url;
+    }
   }
 }

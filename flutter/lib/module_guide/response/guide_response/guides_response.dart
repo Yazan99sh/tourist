@@ -4,7 +4,7 @@ class GuidesResponse {
   String statusCode;
   String msg;
   List<GuideListItemModel> data;
-
+  var noData;
   GuidesResponse({this.statusCode, this.msg, this.data});
 
   GuidesResponse.fromJson(Map<String, dynamic> json) {
@@ -12,9 +12,13 @@ class GuidesResponse {
     msg = json['msg'];
     if (json['Data'] != null) {
       data = <GuideListItemModel>[];
-      json['Data'].forEach((v) {
-        if (v != null) data.add(new GuideListItemModel.fromJson(v));
-      });
+      try {
+        json['Data'].forEach((v) {
+          if (v != null) data.add(new GuideListItemModel.fromJson(v));
+        });
+      } catch (e) {
+        noData = json['Data'];
+      }
     }
   }
 

@@ -19,7 +19,7 @@ class UploadRepository {
       data: data,
     );
     Logger().info('Got a Response', response.toString());
-
+    print(client.httpClientAdapter);
     if (response == null) {
       return null;
     }

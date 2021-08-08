@@ -71,6 +71,54 @@ class TouristOrdersService {
             ))
         .toList();
   }
+  Future<List<OrderModel>> getGuideOrderList() async {
+    String uid = await _authService.userID;
+    if (uid == null) {
+      return null;
+    }
+    if (await _authService.getToken() == null ||
+        !await _authService.isLoggedIn) {
+      return null;
+    }
+    var orders = await _ordersManager.getGuideOrdersList(uid);
+
+    if (orders?.data == null) {
+      return [];
+    }
+
+    List allOrder = [];
+    if (orders != null) {
+      allOrder.addAll(orders.data);
+    }
+    if (allOrder.isEmpty) {
+      return [];
+    }
+    return allOrder
+        .map((e) => OrderModel(
+              id: e.id,
+              touristId: e.touristUserID,
+              guideUserID: e.guidUserID,
+              language: e.language ?? e.order.language,
+              services: e.services,
+              city: e.city ?? e.order.city,
+              cost: e.cost,
+              roomId: e.roomID ?? e.uuid,
+              status: e.status,
+              arriveDate: e.arriveDate?.timestamp == null
+                  ? DateTime.now()
+                  : DateTime.fromMillisecondsSinceEpoch(
+                      1000 * e.arriveDate?.timestamp),
+              leaveDate: e.leaveDate?.timestamp == null
+                  ? DateTime.now()
+                  : DateTime.fromMillisecondsSinceEpoch(
+                      1000 * e.leaveDate?.timestamp),
+              date: e.arriveDate?.timestamp == null
+                  ? DateTime.now()
+                  : DateTime.fromMillisecondsSinceEpoch(
+                      1000 * e.date?.timestamp),
+            ))
+        .toList();
+  }
 
   Future<List<OrderModel>> getGeneralOrders() async {
     String uid = await _authService.userID;

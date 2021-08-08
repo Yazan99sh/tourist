@@ -1,3 +1,4 @@
+import 'package:tourists/generated/l10n.dart';
 import 'package:tourists/module_auth/ui/screen/login_screen/login_screen.dart';
 import 'package:tourists/module_auth/ui/states/login_states/login_state.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class LoginStateSuccess extends LoginState {
           onPressed: () {
             screen.moveToNext();
           },
-          child: Text('Welcome to Soyah'),
+          child: Text('${S.of(context).welcome}'),
         )
       ],
     );

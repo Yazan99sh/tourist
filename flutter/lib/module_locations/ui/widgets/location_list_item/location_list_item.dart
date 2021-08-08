@@ -19,7 +19,7 @@ class LocationListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 135,
+      height: 140,
       child: Flex(
           direction: Axis.horizontal,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,10 +52,13 @@ class LocationListItemWidget extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            title,
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
+                          Container(
+                            width:MediaQuery.of(context).size.width,
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           Text(
                             description,

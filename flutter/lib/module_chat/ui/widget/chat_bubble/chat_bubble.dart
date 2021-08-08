@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourists/generated/l10n.dart';
 
 class ChatBubbleWidget extends StatefulWidget {
   final bool showImage;
@@ -35,7 +36,7 @@ class ChatBubbleWidgetState extends State<ChatBubbleWidget> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(widget.message ?? 'Empty Text?!!'),
+            child: Text(widget.message ?? '${S.of(context).emptyText}?!!'),
           ),
         ),
       ),

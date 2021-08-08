@@ -42,55 +42,64 @@ class _RequestGuideAtLocationFormState
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          height: 88,
-          child: Flex(
-            direction: Axis.horizontal,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 1,
-                fit: FlexFit.tight,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: location != null
-                          ? Image.network(
-                              '${location.regionImage[0].path}'.contains('http')
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 105,
+            child: Flex(
+              direction: Axis.horizontal,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 80,
+                        child: location != null
+                            ? Image.network(
+                              '${location.regionImage[0].path}'
+                                      .contains('http')
                                   ? '${location.regionImage[0].path.substring(location.regionImage[0].path.lastIndexOf('http'))}'
                                   : '${location.regionImage[0].path}',
+                                  fit: BoxFit.fitHeight,
                               errorBuilder: (c, o, s) {
                                 print(guide.image);
-                                return Image.asset('resources/images/logo.jpg');
+                                return Image.asset(
+                                    'resources/images/logo.jpg');
                               },
                             )
-                          : Image.asset('resources/images/logo.jpg'),
-                    ),
-                    Text(location.name),
-                  ],
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                fit: FlexFit.tight,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Image.network(
-                        '${guide.image}'.contains('http')
-                            ? '${guide.image.substring(guide.image.lastIndexOf('http'))}'
-                            : '${guide.image}',
-                        errorBuilder: (c, o, s) {
-                          print(guide.image);
-                          return Image.asset('resources/images/logo.jpg');
-                        },
+                            : Image.asset('resources/images/logo.jpg'),
                       ),
-                    ),
-                    Text('${guide.name}')
-                  ],
+                      Text(location.name),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 80,
+                        child: Image.network(
+                          '${guide.image}'.contains('http')
+                              ? '${guide.image.substring(guide.image.lastIndexOf('http'))}'
+                              : '${guide.image}',
+                              fit: BoxFit.fitHeight,
+                          errorBuilder: (c, o, s) {
+                            print(guide.image);
+                            return Image.asset('resources/images/logo.jpg');
+                          },
+                        ),
+                      ),
+                      Text('${guide.name}')
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         Padding(
@@ -229,7 +238,7 @@ class _RequestGuideAtLocationFormState
             ));
           },
           color: Colors.greenAccent,
-          child: Text(S.of(context).requestAChat),
+          child: Text(S.of(context).createNewOrder),
         ),
       ],
     );

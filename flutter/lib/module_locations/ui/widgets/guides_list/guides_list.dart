@@ -67,8 +67,9 @@ class _GuidesListWidgetState extends State<GuidesListWidget> {
                   guideName: displayedGuides[index].name,
                   guideLanguage: languagesInText,
                   availability: displayedGuides[index].status,
-                  rate: 3,
+                  rate: displayedGuides[index].rating,
                   guideImage: displayedGuides[index].name,
+                  isLogged: false,
                 ),
               );
             }),

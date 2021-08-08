@@ -98,7 +98,7 @@ class _LocationCarouselScreenState extends State<LocationCarouselScreen> {
       direction: Axis.vertical,
       children: <Widget>[
         CircularProgressIndicator(),
-        Text('Loading Data from Network')
+        Text('${S.of(context).loading}')
       ],
     );
   }

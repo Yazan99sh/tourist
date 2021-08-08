@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:tourists/generated/l10n.dart';
 import 'package:tourists/module_locations/location_routes.dart';
+import 'package:tourists/module_locations/model/location_list_item/location_list_item.dart';
 import 'package:tourists/module_search/bloc/search_bloc/search_bloc.dart';
 
 @provide
@@ -17,7 +19,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String currentLocation;
   bool showPredictions = true;
-  Map<String, String> predictions = {};
+  List<LocationListItem> predictions = [];
 
   final _searchController = TextEditingController();
 
@@ -58,20 +60,37 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget buildPredictionList(Map<String, String> predictions) {
+  Widget buildPredictionList(List<LocationListItem> predictions) {
     var tiles = <Widget>[];
 
-    predictions.forEach((key, value) {
-      tiles.add(Card(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context)
-                .pushNamed(LocationRoutes.locationDetails, arguments: value);
-            if (mounted) setState(() {});
-          },
+    predictions.forEach((val) {
+      tiles.add(GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            LocationRoutes.locationDetails,
+            arguments: val.id,
+          );
+        },
+        child: Card(
           child: ListTile(
-            title: Text(' ' + key),
-            trailing: Icon(Icons.navigate_next),
+            leading: Container(
+              height: 75,
+              width: 75,
+              child: Image.network(val.path[0].path,fit: BoxFit.cover,),
+            ),
+            title: Text('${val.name}'),
+            subtitle: Text(
+              '${val.description}',
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: SmoothStarRating(
+              isReadOnly: true,
+              color: Colors.black,
+              borderColor: Colors.black,
+              starCount: 5,
+              rating: double.parse(val.ratingAverage),
+              size: 12,
+            ),
           ),
         ),
       ));

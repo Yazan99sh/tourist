@@ -162,7 +162,7 @@ class OrderItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Order #${orderModel.id} Pending',
+                      '${S.of(context).order} #${orderModel.id} ${S.of(context).pending}',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Container(
@@ -223,14 +223,14 @@ class OrderItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Order #${orderModel.id} Pending',
+                      '${S.of(context).order} #${orderModel.id} ${S.of(context).pending}',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Container(
                       height: 8,
                     ),
                     Text(
-                        'city ${orderModel.city ?? ''} | lang ${orderModel.language ?? ''} | cost ${orderModel.cost ?? ''}'),
+                        '${S.of(context).city} ${orderModel.city ?? ''} | ${S.of(context).language} ${orderModel.language ?? ''} | ${S.of(context).cost} ${orderModel.cost ?? ''}'),
                     Container(
                       height: 8,
                     ),
@@ -258,9 +258,11 @@ class OrderItemWidget extends StatelessWidget {
                   RaisedButton(
                     onPressed: () {
                       orderModel.status = 'refused';
-                      this.onAcceptOrder(orderModel);
+                      OrderModel order =
+                          OrderModel(id: orderModel.id, status: 'refused');
+                      this.onAcceptOrder(order);
                     },
-                    child: Text('Refuse Order'),
+                    child: Text('${S.of(context).refused}'),
                   ),
                 ],
               )
@@ -299,14 +301,14 @@ class OrderItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Order #${orderModel.id} Pending',
+                      '${S.of(context).order} #${orderModel.id} ${S.of(context).pending}',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Container(
                       height: 8,
                     ),
                     Text(
-                      'On Going',
+                      '${S.of(context).onGoing}',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Container(
@@ -329,7 +331,7 @@ class OrderItemWidget extends StatelessWidget {
         ),
         canPay != null && canPay && status != null
             ? RaisedButton(
-                child: Text('finish order'),
+                child: Text('${S.of(context).finishOrder}'),
                 onPressed: () {
                   OrderModel order =
                       OrderModel(id: orderModel.id, status: status ?? 'done');
@@ -368,7 +370,7 @@ class OrderItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Finished',
+                  '${S.of(context).finished}',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Container(

@@ -24,11 +24,12 @@ class CarouselCard extends StatelessWidget {
         children: <Widget>[
           Container(
               width: double.infinity,
+              height: 240,
               child: Image.network(
                 '$image'.contains('http')
                     ? image.substring(image.lastIndexOf('http'))
                     : image,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 errorBuilder: (context, object, stack) {
                   return Image.asset('resources/images/logo.jpg');
                 },
@@ -98,7 +99,7 @@ class CarouselCard extends StatelessWidget {
         i + 1 <= stars
             ? Icon(
                 Icons.star,
-                color:Colors.white,
+                color: Colors.white,
                 size: starSize,
               )
             : Icon(

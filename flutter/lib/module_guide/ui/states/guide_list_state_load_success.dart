@@ -9,11 +9,14 @@ import 'package:tourists/module_guide/ui/states/guide_list_state.dart';
 import 'package:tourists/module_guide/ui/widget/guide_list_item/guide_list_item.dart';
 
 class GuideListStateLoadSuccess extends GuideListState {
-  final List<GuideListItemModel> _guidesList;
+  final List<GuideListItemModel> guidesListModel;
   final bool isLoggedId;
-
+  void Function(double,String) onCreateRate;
   GuideListStateLoadSuccess(
-      GuideListScreen screen, this._guidesList, this.isLoggedId)
+      {GuideListScreen screen,
+      this.guidesListModel,
+      this.isLoggedId,
+      this.onCreateRate})
       : super(screen);
 
   @override
@@ -30,7 +33,7 @@ class GuideListStateLoadSuccess extends GuideListState {
     List<Widget> guidesList = [];
 
     // Construct the List into CSV text
-    _guidesList.forEach((guide) {
+    guidesListModel.forEach((guide) {
       String citiesInText = ' ';
       guide.regions.forEach((region) {
         citiesInText = '$citiesInText ${region.name}';
@@ -57,8 +60,12 @@ class GuideListStateLoadSuccess extends GuideListState {
           guideName: guide.name,
           guideLanguage: languagesInText,
           availability: guide.status,
-          rate: 3,
+          rate: guide.rating,
           guideImage: guide.image,
+          isLogged: isLoggedId,
+          createRate: (rate) {
+            onCreateRate(rate,guide.userID);
+          },
         ),
       ));
     });

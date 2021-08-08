@@ -11,17 +11,18 @@ class LocationDetailsModel {
   List<RegionImage> regionImage;
   List<GuideListItemModel> guides;
   String placeId;
-
+  var userRating;
   LocationDetailsModel(
       {this.id,
-        this.name,
-        this.description,
-        this.location,
-        this.comments,
-        this.ratingAverage,
-        this.regionImage,
-        this.guides,
-        this.placeId});
+      this.name,
+      this.description,
+      this.location,
+      this.comments,
+      this.ratingAverage,
+      this.regionImage,
+      this.guides,
+      this.placeId,
+      this.userRating});
 
   LocationDetailsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -48,6 +49,7 @@ class LocationDetailsModel {
       });
     }
     placeId = json['placeId'];
+    userRating = json['userRating'];
   }
 
   Map<String, dynamic> toJson() {
@@ -204,4 +206,3 @@ class RegionImage {
     return data;
   }
 }
-

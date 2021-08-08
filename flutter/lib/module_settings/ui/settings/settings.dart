@@ -63,20 +63,20 @@ class __SettingsScreenState extends State<SettingsScreen> {
         ),
         Card(
           child: ListTile(
-            title: Text('Login Status'),
+            title: Text('${S.of(context).loginStatus}'),
             leading: Icon(Icons.person),
             trailing: settingsModel.currentUserRole == null
-                ? Text('Not Logged in')
+                ? Text('${S.of(context).notLoggedIn}')
                 : settingsModel.currentUserRole == UserRole.ROLE_GUIDE
-                    ? Text('Guide')
-                    : Text('Tourist'),
+                    ? Text('${S.of(context).guide}')
+                    : Text('${S.of(context).tourist}'),
           ),
         ),
         settingsModel.currentUserRole == null
             ? Container()
             : Card(
                 child: ListTile(
-                  title: Text('Logout'),
+                  title: Text('${S.of(context).logout}'),
                   leading: Icon(Icons.person),
                   trailing: IconButton(
                     icon: Icon(Icons.logout),

@@ -29,4 +29,13 @@ class GuideHomeBloc {
       _orderSubject.add(Pair(STATUS_CODE_LOAD_SUCCESS, value));
     });
   }
+  void getGuideOrdersList() {
+    _orderSubject.add(Pair(STATUS_CODE_LOADING, null));
+    _ordersService.getGuideOrderList().then((value) {
+      if (value == null) {
+        _orderSubject.add(Pair(STATUS_CODE_LOAD_ERROR, null));
+      }
+      _orderSubject.add(Pair(STATUS_CODE_LOAD_SUCCESS, value));
+    });
+  }
 }

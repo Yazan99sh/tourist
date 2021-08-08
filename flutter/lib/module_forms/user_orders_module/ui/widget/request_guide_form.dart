@@ -39,18 +39,21 @@ class _RequestGuideFormState extends State<RequestGuideForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          height: 88,
+          height: 100,
           child: Column(
             children: [
               Expanded(
-                child: Image.network(
-                  '${guide.image}'.contains('http')
-                      ? '${guide.image.substring(guide.image.lastIndexOf('http'))}'
-                      : '${guide.image}',
-                  errorBuilder: (c, e, s) {
-                    print(e.toString());
-                    return Image.asset('resources/images/logo.jpg');
-                  },
+                child: Padding(
+                  padding: const EdgeInsets.only(top:8.0,bottom: 8),
+                  child: Image.network(
+                    '${guide.image}'.contains('http')
+                        ? '${guide.image.substring(guide.image.lastIndexOf('http'))}'
+                        : '${guide.image}',
+                    errorBuilder: (c, e, s) {
+                      print(e.toString());
+                      return Image.asset('resources/images/logo.jpg');
+                    },
+                  ),
                 ),
               ),
               Text('${guide.name}'),
@@ -82,7 +85,7 @@ class _RequestGuideFormState extends State<RequestGuideForm> {
                 child: Text('${location.name}'),
               );
             }).toList(),
-            hint: Text(S.of(context).expectedCommunicationLanguage),
+            hint: Text(S.of(context).locationName),
             onChanged: (String value) {
               this._placeId = value;
             },
@@ -208,7 +211,7 @@ class _RequestGuideFormState extends State<RequestGuideForm> {
             ));
           },
           color: Colors.greenAccent,
-          child: Text(S.of(context).requestAChat),
+          child: Text(S.of(context).createNewOrder),
         ),
       ],
     );

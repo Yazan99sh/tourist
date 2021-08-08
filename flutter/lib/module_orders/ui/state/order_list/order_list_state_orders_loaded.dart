@@ -26,7 +26,7 @@ class OrderListStateOrdersLoaded extends OrdersListState {
     ListView sentOrders = _getSentOrdersList(context);
     ListView pendingPaymentOrders = _getPendingPaymentList(context);
     ListView onGoing = _getOnGoingOrdersList(context);
-    ListView done = _getFinishedOrdersList();
+    ListView done = _getFinishedOrdersList(context);
 
     PageView orderPages = PageView(
       controller: _pageController,
@@ -161,12 +161,13 @@ class OrderListStateOrdersLoaded extends OrdersListState {
       return ListView(
         children: <Widget>[
           Center(
-            child: Text('Empty List'),
+            child: Text('${S.of(context).empty}'),
           ),
         ],
       );
     }
     List<Widget> ordersWidgetList = [];
+
     ordersList.forEach((element) {
       if (element.status == 'pending' && element.roomId == null) {
         ordersWidgetList.add(OrderItemWidget(
@@ -175,14 +176,34 @@ class OrderListStateOrdersLoaded extends OrdersListState {
         ));
       }
     });
+    ordersWidgetList.insert(
+        0,
+        Container(
+          width: double.maxFinite,
+          color: Theme.of(context).primaryColor,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                '${S.of(context).chatWithGuid}',
+                textAlign: TextAlign.start,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ));
     return ListView(
-      children: ordersWidgetList.isNotEmpty
+      children:  ordersWidgetList.isNotEmpty && ordersWidgetList.length > 1 
           ? ordersWidgetList
           : <Widget>[
-              Container(
-                height: 300,
-                child: Center(
-                  child: Text('Empty List'),
+            ordersWidgetList[0],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 300,
+                  child: Center(
+                    child: Text('${S.of(context).empty}'),
+                  ),
                 ),
               )
             ],
@@ -195,7 +216,7 @@ class OrderListStateOrdersLoaded extends OrdersListState {
       return ListView(
         children: <Widget>[
           Center(
-            child: Text('Empty List'),
+            child: Text('${S.of(context).empty}'),
           ),
         ],
       );
@@ -219,7 +240,9 @@ class OrderListStateOrdersLoaded extends OrdersListState {
       children: ordersWidgetList.isNotEmpty
           ? ordersWidgetList
           : <Widget>[
-              Container(height: 300, child: Center(child: Text('Empty List')))
+              Container(
+                  height: 300,
+                  child: Center(child: Text('${S.of(context).empty}')))
             ],
     );
   }
@@ -229,7 +252,7 @@ class OrderListStateOrdersLoaded extends OrdersListState {
       return ListView(
         children: <Widget>[
           Center(
-            child: Text('Empty List'),
+            child: Text('${S.of(context).empty}'),
           ),
         ],
       );
@@ -247,17 +270,19 @@ class OrderListStateOrdersLoaded extends OrdersListState {
       children: ordersWidgetList.isNotEmpty
           ? ordersWidgetList
           : <Widget>[
-              Container(height: 300, child: Center(child: Text('Empty List')))
+              Container(
+                  height: 300,
+                  child: Center(child: Text('${S.of(context).empty}')))
             ],
     );
   }
 
-  Widget _getFinishedOrdersList() {
+  Widget _getFinishedOrdersList(BuildContext context) {
     if (ordersList == null) {
       return ListView(
         children: <Widget>[
           Center(
-            child: Text('Empty List'),
+            child: Text('${S.of(context).empty}'),
           ),
         ],
       );
@@ -275,7 +300,9 @@ class OrderListStateOrdersLoaded extends OrdersListState {
       children: ordersWidgetList.isNotEmpty
           ? ordersWidgetList
           : <Widget>[
-              Container(height: 300, child: Center(child: Text('Empty List')))
+              Container(
+                  height: 300,
+                  child: Center(child: Text('${S.of(context).empty}')))
             ],
     );
   }

@@ -29,7 +29,7 @@ class LocationDetailsService {
 
     var locationModel = apiResponse?.locationDetails;
 
-    locationModel ??= await createLocationByGoogleId(locationId);
+    //locationModel ??= await createLocationByGoogleId(locationId);
 
     if (locationModel == null) {
       // There is a problem in the request. it should be validated and reported
@@ -86,10 +86,12 @@ class LocationDetailsService {
     return response.locationDetails;
   }
 
-  Future<dynamic> createRate(int rate, String locationId) async {
+  Future<dynamic> createRate(double rate, String locationId) async {
     String uid = await _preferencesHelper.getUserUID();
-    dynamic response = await _ratingManager.createRating(
-        CreateRatingRequest(user: uid, rate: rate, region: locationId));
+    dynamic response = await _ratingManager.createRating(CreateRatingRequest(
+        user: uid,
+        rate: rate.toInt().toString(),
+        region: int.parse(locationId)));
 
     return response;
   }

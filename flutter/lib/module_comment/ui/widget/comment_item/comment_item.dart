@@ -30,30 +30,65 @@ class CommentItemWidget extends StatelessWidget {
             child: Container(
               height: 36,
               width: 36,
-              child: Stack(
-                children: [
-                  role != 'guid'
-                      ? Container(
-                          height: 36,
-                          width: 36,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            shape: BoxShape.circle,
-                          ),
-                        )
-                      : Icon(
-                          Icons.security,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                  Center(
-                      child: Text(
-                    userName == null
-                        ? ' '
-                        : userName.substring(0, 1).toUpperCase(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  )),
-                ],
-              ),
+              child: userImage.isNotEmpty
+                  ? ClipOval(
+                      child: Image.network(
+                        userImage,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, v, c) {
+                          return Stack(
+                            children: [
+                              role != 'guid'
+                                  ? Container(
+                                      height: 36,
+                                      width: 36,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).primaryColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.security,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                              Center(
+                                  child: Text(
+                                userName == null
+                                    ? ' '
+                                    : userName.substring(0, 1).toUpperCase(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              )),
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  : Stack(
+                      children: [
+                        role != 'guid'
+                            ? Container(
+                                height: 36,
+                                width: 36,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                              )
+                            : Icon(
+                                Icons.security,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                        Center(
+                            child: Text(
+                          userName == null
+                              ? ' '
+                              : userName.substring(0, 1).toUpperCase(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        )),
+                      ],
+                    ),
             ),
           ),
           Expanded(

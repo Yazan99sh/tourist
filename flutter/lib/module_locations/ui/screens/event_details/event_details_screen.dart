@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inject/inject.dart';
 import 'package:tourists/generated/l10n.dart';
+import 'package:tourists/module_comment/response/comment/comment_response.dart';
+import 'package:tourists/module_comment/ui/widget/comment_list/comment_list.dart';
 import 'package:tourists/module_locations/bloc/event_details/event_details.dart';
+import 'package:tourists/module_locations/location_routes.dart';
 import 'package:tourists/module_locations/model/event/event_model.dart';
 import 'package:tourists/module_shared/ui/widgets/carousel/carousel.dart';
 import 'package:tourists/module_shared/ui/widgets/request_guide_button/request_guide_button.dart';
@@ -21,6 +24,22 @@ class EventDetailsScreenState extends State<EventDetailsScreen> {
   int eventId;
   EventModel eventDetails;
   String locationId;
+  @override
+  void initState() {
+    super.initState();
+    widget._bloc.eventStream.listen((event) {
+      currentState = event[EventDetailsBloc.KEY_STATUS];
+      if (currentState == EventDetailsBloc.STATUS_CODE_LOAD_SUCCESS) {
+        eventDetails = event[EventDetailsBloc.KEY_EVENT];
+        if (event[EventDetailsBloc.KEY_LOCATION] != null) {
+          locationId = event[EventDetailsBloc.KEY_LOCATION].id;
+        }
+      }
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +52,9 @@ class EventDetailsScreenState extends State<EventDetailsScreen> {
           locationId = event[EventDetailsBloc.KEY_LOCATION].id;
         }
       }
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
 
     if (currentState == EventDetailsBloc.STATUS_CODE_INIT) {
@@ -72,17 +93,18 @@ class EventDetailsScreenState extends State<EventDetailsScreen> {
     List<Widget> pageUI = [];
     List<Widget> carouselCards = [];
 
-    List<String> eventImages = [];
+    var eventImages = [];
+    print(eventDetails.images);
     if (eventDetails.images == null) {
       eventImages = [
-        'https://cdn.pixabay.com/photo/2017/07/21/23/57/concert-2527495__340.jpg'
+        'https://www.abouther.com/sites/default/files/2018/11/06/main_-_janadriyah_festival.jpg'
       ];
     } else if (eventDetails.images.isEmpty) {
       eventImages = [
-        'https://cdn.pixabay.com/photo/2017/07/21/23/57/concert-2527495__340.jpg'
+        'https://www.abouther.com/sites/default/files/2018/11/06/main_-_janadriyah_festival.jpg'
       ];
     } else {
-      eventImages = eventDetails.images;
+      eventImages.add(eventDetails.images);
     }
 
     eventImages.forEach((element) {
@@ -142,17 +164,20 @@ class EventDetailsScreenState extends State<EventDetailsScreen> {
     pageUI.add(Container(
       height: 16,
     ));
-
     pageUI.add(Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Icon(Icons.location_on),
         Text(
-          eventDetails.location ?? 'Soon',
+          eventDetails.location ?? '${S.of(context).soon}',
           style: TextStyle(fontSize: 24),
         )
       ],
     ));
+    pageUI.add(Container(
+      height: 16,
+    ));
+    pageUI.add(_getCommentsList());
 
     return Scaffold(
       appBar: AppBar(
@@ -192,6 +217,18 @@ class EventDetailsScreenState extends State<EventDetailsScreen> {
       body: Center(
         child: Text(S.of(context).error_fetching_data),
       ),
+    );
+  }
+
+  Widget _getCommentsList() {
+    eventDetails.comments ??= <CommentModel>[];
+    return CommentListWidget(
+      comments: eventDetails.comments,
+      pageSize: 3,
+      onCommentPosted: (comment) {
+        widget._bloc.postComment(comment, locationId ?? eventDetails.id);
+      },
+      isLoggedIn: eventDetails.isLogged ?? false,
     );
   }
 

@@ -8,7 +8,7 @@ import 'package:tourists/module_search/bloc/search_bloc/search_bloc.dart';
 import 'edit_profile_state.dart';
 
 class EditProfileStateGuideLoadSuccess extends EditProfileState {
-  final ProfileModel userProfile;
+  ProfileModel userProfile;
   final SearchBloc _searchBloc;
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -38,16 +38,18 @@ class EditProfileStateGuideLoadSuccess extends EditProfileState {
 
   @override
   Widget getUI(BuildContext context) {
-    var profile = userProfile;
-    profile ??= ProfileModel();
+    // var profile = userProfile;
+    userProfile ??= ProfileModel();
 
     return GuideProfileFormWidget(
       searchBloc: _searchBloc,
       userProfile: userProfile,
-      onImageSelected: (imagePath, profileModel) {
-        screen.onImageSelected(imagePath, profileModel);
+      onImageSelected: (imagePath, profile) {
+        profile.imageUpdated = true;
+        screen.onImageSelected(imagePath, profile);
       },
       onProfileSaved: (profile) {
+        profile.imageUpdated = profile.imageUpdated ?? false;
         screen.saveProfile(profile);
       },
     );

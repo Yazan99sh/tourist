@@ -113,7 +113,7 @@ class _LocationListScreenState extends State<LocationListScreen> {
       direction: Axis.vertical,
       children: <Widget>[
         CircularProgressIndicator(),
-        Text('Loading Data from Network')
+        Text('${S.of(context).loading}')
       ],
     );
   }

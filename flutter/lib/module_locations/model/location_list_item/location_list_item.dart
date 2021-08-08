@@ -6,6 +6,7 @@ class LocationListItem {
   String commentNumber;
   String ratingAverage;
   List<Path> path;
+  String rating;
 
   LocationListItem(
       {this.id,
@@ -14,15 +15,18 @@ class LocationListItem {
       this.location,
       this.commentNumber,
       this.ratingAverage,
-      this.path});
+      this.path,
+      this.rating
+      });
 
   LocationListItem.fromJson(Map<String, dynamic> json) {
-    id =json['placeId'] ?? '2';
+    id = json['placeId'] ?? '2';
     name = json['name'];
     description = json['description'];
-   location = json['location'];
+    location = json['location'];
     commentNumber = json['commentNumber'];
-    ratingAverage = json['ratingAverage']??'0';
+    ratingAverage = json['ratingAverage'] ?? '0';
+    rating = json['rating'];
     if (json['path'] != null) {
       path = <Path>[];
       json['path'].forEach((v) {

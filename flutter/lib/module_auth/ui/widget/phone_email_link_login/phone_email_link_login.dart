@@ -39,16 +39,7 @@ class _PhoneEmailLinkLoginWidgetState
       switchInCurve: Curves.easeInBack,
       switchOutCurve: Curves.easeOutBack,
       duration: Duration(milliseconds: 500),
-      child: _phoneActive
-          ? Padding(
-              key: ValueKey<bool>(false),
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                color: isGuide ? Theme.of(context).primaryColor : Colors.white,
-                child: _EmailSide(),
-              ),
-            )
-          : Padding(
+      child:Padding(
               key: ValueKey<bool>(true),
               padding: const EdgeInsets.all(16.0),
               child: Card(
@@ -275,30 +266,6 @@ class _PhoneEmailLinkLoginWidgetState
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  _phoneActive = !_phoneActive;
-                  if (mounted) setState(() {});
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.black,
-                      )),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.email_outlined,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(

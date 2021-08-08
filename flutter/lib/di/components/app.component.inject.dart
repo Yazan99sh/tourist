@@ -43,34 +43,34 @@ import '../../module_guide/bloc/guide_list/guide_list_bloc.dart' as _i33;
 import '../../module_guide/service/guide_list/guide_list.dart' as _i34;
 import '../../module_guide/manager/guides_manager/guides_manager.dart' as _i35;
 import '../../module_guide/repository/guides/guide_repository.dart' as _i36;
-import '../../module_locations/ui/screens/event_list/event_list.dart' as _i37;
-import '../../module_locations/bloc/event_list/event_list_bloc.dart' as _i38;
-import '../../module_locations/service/event/event_service.dart' as _i39;
-import '../../module_locations/manager/event/event_manager.dart' as _i40;
-import '../../module_locations/repository/event/event_repository.dart' as _i41;
+import '../../module_comment/manager/rate/rate_manager.dart' as _i37;
+import '../../module_comment/repository/rating/rating_repository.dart' as _i38;
+import '../../module_locations/ui/screens/event_list/event_list.dart' as _i39;
+import '../../module_locations/bloc/event_list/event_list_bloc.dart' as _i40;
+import '../../module_locations/service/event/event_service.dart' as _i41;
+import '../../module_locations/manager/event/event_manager.dart' as _i42;
+import '../../module_locations/repository/event/event_repository.dart' as _i43;
 import '../../module_locations/ui/screens/location_carousel/location_carousel.dart'
-    as _i42;
-import '../../module_splash/splash_module.dart' as _i43;
-import '../../module_splash/ui/screen/splash_screen.dart' as _i44;
-import '../../module_chat/chat_module.dart' as _i45;
-import '../../module_chat/ui/screens/chat_page/chat_page.dart' as _i46;
-import '../../module_chat/bloc/chat_page/chat_page.bloc.dart' as _i47;
-import '../../module_chat/service/chat/char_service.dart' as _i48;
-import '../../module_chat/manager/chat/chat_manager.dart' as _i49;
-import '../../module_chat/repository/chat/chat_repository.dart' as _i50;
-import '../../module_locations/location_module.dart' as _i51;
+    as _i44;
+import '../../module_splash/splash_module.dart' as _i45;
+import '../../module_splash/ui/screen/splash_screen.dart' as _i46;
+import '../../module_chat/chat_module.dart' as _i47;
+import '../../module_chat/ui/screens/chat_page/chat_page.dart' as _i48;
+import '../../module_chat/bloc/chat_page/chat_page.bloc.dart' as _i49;
+import '../../module_chat/service/chat/char_service.dart' as _i50;
+import '../../module_chat/manager/chat/chat_manager.dart' as _i51;
+import '../../module_chat/repository/chat/chat_repository.dart' as _i52;
+import '../../module_locations/location_module.dart' as _i53;
 import '../../module_locations/ui/screens/location_details/location_details.dart'
-    as _i52;
-import '../../module_locations/bloc/location_details/location_details_bloc.dart'
-    as _i53;
-import '../../module_locations/service/location_details/location_details_service.dart'
     as _i54;
-import '../../module_locations/manager/location_details/location_details.dart'
+import '../../module_locations/bloc/location_details/location_details_bloc.dart'
     as _i55;
-import '../../module_locations/repository/location_details/location_details_repository.dart'
+import '../../module_locations/service/location_details/location_details_service.dart'
     as _i56;
-import '../../module_comment/manager/rate/rate_manager.dart' as _i57;
-import '../../module_comment/repository/rating/rating_repository.dart' as _i58;
+import '../../module_locations/manager/location_details/location_details.dart'
+    as _i57;
+import '../../module_locations/repository/location_details/location_details_repository.dart'
+    as _i58;
 import '../../module_locations/service/google_locations/google_locations_service.dart'
     as _i59;
 import '../../module_locations/manager/google_locations/google_locations_manager.dart'
@@ -208,70 +208,74 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i30.LocationListManager _createLocationListManager() =>
       _i30.LocationListManager(_createLocationListRepository());
   _i31.LocationListRepository _createLocationListRepository() =>
-      _i31.LocationListRepository(_createHttpClient());
+      _i31.LocationListRepository(
+          _createHttpClient(), _createAuthService(), _createAuthPrefsHelper());
   _i2.Logger _createLogger() => _singletonLogger ??= _i2.Logger();
   _i32.GuideListScreen _createGuideListScreen() =>
       _i32.GuideListScreen(_createGuideListBloc());
   _i33.GuideListBloc _createGuideListBloc() =>
       _i33.GuideListBloc(_createGuideListService(), _createAuthService());
-  _i34.GuideListService _createGuideListService() =>
-      _i34.GuideListService(_createGuidesManager());
+  _i34.GuideListService _createGuideListService() => _i34.GuideListService(
+      _createGuidesManager(),
+      _createSharedPreferencesHelper(),
+      _createRatingManager());
   _i35.GuidesManager _createGuidesManager() =>
       _i35.GuidesManager(_createGuidesRepository());
   _i36.GuidesRepository _createGuidesRepository() =>
       _i36.GuidesRepository(_createHttpClient());
-  _i37.EventListScreen _createEventListScreen() =>
-      _i37.EventListScreen(_createEventListBloc());
-  _i38.EventListBloc _createEventListBloc() =>
-      _i38.EventListBloc(_createEventService());
-  _i39.EventService _createEventService() =>
-      _i39.EventService(_createEventManager());
-  _i40.EventManager _createEventManager() =>
-      _i40.EventManager(_createEventRepository());
-  _i41.EventRepository _createEventRepository() =>
-      _i41.EventRepository(_createHttpClient());
-  _i42.LocationCarouselScreen _createLocationCarouselScreen() =>
-      _i42.LocationCarouselScreen(_createLocationListBloc());
-  _i43.SplashModule _createSplashModule() =>
-      _i43.SplashModule(_createSplashScreen());
-  _i44.SplashScreen _createSplashScreen() =>
-      _i44.SplashScreen(_createLanguageHelper());
-  _i45.ChatModule _createChatModule() => _i45.ChatModule(_createChatPage());
-  _i46.ChatPage _createChatPage() => _i46.ChatPage(_createChatPageBloc());
-  _i47.ChatPageBloc _createChatPageBloc() =>
-      _i47.ChatPageBloc(_createChatService());
-  _i48.ChatService _createChatService() =>
-      _i48.ChatService(_createChatManager());
-  _i49.ChatManager _createChatManager() =>
-      _i49.ChatManager(_createChatRepository());
-  _i50.ChatRepository _createChatRepository() => _i50.ChatRepository();
-  _i51.LocationModule _createLocationModule() => _i51.LocationModule(
+  _i37.RatingManager _createRatingManager() =>
+      _i37.RatingManager(_createRatingRepository());
+  _i38.RatingRepository _createRatingRepository() =>
+      _i38.RatingRepository(_createHttpClient());
+  _i39.EventListScreen _createEventListScreen() =>
+      _i39.EventListScreen(_createEventListBloc());
+  _i40.EventListBloc _createEventListBloc() =>
+      _i40.EventListBloc(_createEventService());
+  _i41.EventService _createEventService() =>
+      _i41.EventService(_createEventManager(), _createAuthService());
+  _i42.EventManager _createEventManager() =>
+      _i42.EventManager(_createEventRepository());
+  _i43.EventRepository _createEventRepository() =>
+      _i43.EventRepository(_createHttpClient());
+  _i44.LocationCarouselScreen _createLocationCarouselScreen() =>
+      _i44.LocationCarouselScreen(_createLocationListBloc());
+  _i45.SplashModule _createSplashModule() =>
+      _i45.SplashModule(_createSplashScreen());
+  _i46.SplashScreen _createSplashScreen() =>
+      _i46.SplashScreen(_createLanguageHelper());
+  _i47.ChatModule _createChatModule() => _i47.ChatModule(_createChatPage());
+  _i48.ChatPage _createChatPage() => _i48.ChatPage(_createChatPageBloc());
+  _i49.ChatPageBloc _createChatPageBloc() =>
+      _i49.ChatPageBloc(_createChatService());
+  _i50.ChatService _createChatService() =>
+      _i50.ChatService(_createChatManager());
+  _i51.ChatManager _createChatManager() =>
+      _i51.ChatManager(_createChatRepository());
+  _i52.ChatRepository _createChatRepository() => _i52.ChatRepository();
+  _i53.LocationModule _createLocationModule() => _i53.LocationModule(
       _createLocationDetailsScreen(),
       _createEventDetailsScreen(),
       _createAddLocationScreen());
-  _i52.LocationDetailsScreen _createLocationDetailsScreen() =>
-      _i52.LocationDetailsScreen(
+  _i54.LocationDetailsScreen _createLocationDetailsScreen() =>
+      _i54.LocationDetailsScreen(
           _createLocationDetailsBloc(), _createAuthGuard());
-  _i53.LocationDetailsBloc _createLocationDetailsBloc() =>
-      _i53.LocationDetailsBloc(
+  _i55.LocationDetailsBloc _createLocationDetailsBloc() =>
+      _i55.LocationDetailsBloc(
           _createLocationDetailsService(),
           _createSharedPreferencesHelper(),
           _createCommentManager(),
           _createAuthService());
-  _i54.LocationDetailsService _createLocationDetailsService() =>
-      _i54.LocationDetailsService(
+  _i56.LocationDetailsService _createLocationDetailsService() =>
+      _i56.LocationDetailsService(
           _createLocationDetailsManager(),
           _createRatingManager(),
           _createSharedPreferencesHelper(),
           _createGoogleLocationsService());
-  _i55.LocationDetailsManager _createLocationDetailsManager() =>
-      _i55.LocationDetailsManager(_createLocationDetailsRepository());
-  _i56.LocationDetailsRepository _createLocationDetailsRepository() =>
-      _i56.LocationDetailsRepository(_createHttpClient(), _createAuthService());
-  _i57.RatingManager _createRatingManager() =>
-      _i57.RatingManager(_createRatingRepository());
-  _i58.RatingRepository _createRatingRepository() =>
-      _i58.RatingRepository(_createHttpClient());
+  _i57.LocationDetailsManager _createLocationDetailsManager() =>
+      _i57.LocationDetailsManager(_createLocationDetailsRepository());
+  _i58.LocationDetailsRepository _createLocationDetailsRepository() =>
+      _i58.LocationDetailsRepository(
+          _createHttpClient(), _createAuthService(), _createAuthPrefsHelper());
   _i59.GoogleLocationsService _createGoogleLocationsService() =>
       _i59.GoogleLocationsService(
           _createGoogleLocationsManager(), _createLocationPreferencesHelper());
@@ -289,7 +293,10 @@ class AppComponent$Injector implements _i1.AppComponent {
   _i65.EventDetailsScreen _createEventDetailsScreen() =>
       _i65.EventDetailsScreen(_createEventDetailsBloc());
   _i66.EventDetailsBloc _createEventDetailsBloc() => _i66.EventDetailsBloc(
-      _createEventService(), _createLocationListService());
+      _createEventService(),
+      _createLocationListService(),
+      _createCommentManager(),
+      _createSharedPreferencesHelper());
   _i67.AddLocationScreen _createAddLocationScreen() =>
       _i67.AddLocationScreen(_createAddLocationBloc());
   _i68.AddLocationBloc _createAddLocationBloc() => _i68.AddLocationBloc(

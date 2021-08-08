@@ -11,7 +11,7 @@ import 'package:tourists/utils/keyboard_detector/keyboard_detector.dart';
 class GuideProfileFormWidget extends StatefulWidget {
   final ProfileModel userProfile;
   final SearchBloc searchBloc;
-  final Function(String path, ProfileModel profileModel) onImageSelected;
+  final Function(String path, ProfileModel profile) onImageSelected;
   final Function(ProfileModel profileModel) onProfileSaved;
 
   GuideProfileFormWidget({
@@ -39,7 +39,7 @@ class _GuideProfileFormWidgetState extends State<GuideProfileFormWidget> {
   ProfileModel userProfile;
 
   _GuideProfileFormWidgetState(this.userProfile) {
-    _nameController.text = userProfile?.name;
+    _nameController.text = userProfile?.name?.trim();
     _phoneController.text = userProfile?.phone;
     languages.addAll(userProfile?.languages ?? []);
     locations.addAll(userProfile?.locations ?? []);
@@ -87,6 +87,12 @@ class _GuideProfileFormWidgetState extends State<GuideProfileFormWidget> {
                                   source: ImageSource.gallery, imageQuality: 70)
                               .then((image) {
                             if (image != null) {
+                              profile.name = _nameController.text;
+                              profile.phone = _phoneController.text;
+                              profile.image = profile.image;
+                              profile.languages = languages.toList();
+                              profile.locations = locations.toList();
+                              profile.services = services.toList();
                               widget.onImageSelected(image.path, profile);
                             }
                           });
@@ -119,7 +125,7 @@ class _GuideProfileFormWidgetState extends State<GuideProfileFormWidget> {
                 ),
                 validator: (val) {
                   if (val.isEmpty) {
-                    return 'This value is required';
+                    return '${S.of(context).valueRequred}';
                   }
                   return null;
                 },
@@ -135,7 +141,7 @@ class _GuideProfileFormWidgetState extends State<GuideProfileFormWidget> {
                 keyboardType: TextInputType.phone,
                 validator: (val) {
                   if (val.isEmpty) {
-                    return 'This value is required';
+                    return '${S.of(context).valueRequred}';
                   }
                   return null;
                 },
@@ -239,15 +245,21 @@ class _GuideProfileFormWidgetState extends State<GuideProfileFormWidget> {
             GestureDetector(
               onTap: () {
                 if (_registerGuideFormKey.currentState.validate()) {
-                  var createProfileRequest = ProfileModel(
-                    name: _nameController.text,
-                    phone: _phoneController.text,
-                    image: profile.image,
-                    languages: languages.toList(),
-                    locations: locations.toList(),
-                    services: services.toList(),
-                  );
-                  widget.onProfileSaved(createProfileRequest);
+                  // var createProfileRequest = ProfileModel(
+                  //   name: _nameController.text,
+                  //   phone: _phoneController.text,
+                  //   image: profile.image,
+                  //   languages: languages.toList(),
+                  //   locations: locations.toList(),
+                  //   services: services.toList(),
+                  // );
+                  profile.name = _nameController.text;
+                  profile.phone = _phoneController.text;
+                  profile.image = profile.image;
+                  profile.languages = languages.toList();
+                  profile.locations = locations.toList();
+                  profile.services = services.toList();
+                  widget.onProfileSaved(profile);
                 }
               },
               child: Container(

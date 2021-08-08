@@ -18,9 +18,11 @@ class EditProfileStateTouristLoadSuccess extends EditProfileState {
     return TouristProfileForm(
       profile: profile,
       onImageSelected: (image, profile) {
+        profile.imageUpdated = true;
         screen.onImageSelected(image, profile);
       },
       saveProfile: (profile) {
+        profile.imageUpdated = profile.imageUpdated??false;
         screen.saveProfile(profile);
       },
     );

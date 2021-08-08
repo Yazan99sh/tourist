@@ -37,10 +37,11 @@ class ProfileService {
   Future<ProfileModel> createProfile(ProfileModel profileModel) async {
     String userId = await _authService.userID;
     UserRole role = await _authService.userRole;
-
     CreateProfileRequest request = CreateProfileRequest(
       userName: profileModel.name,
-      image: profileModel.image,
+      image: profileModel.imageUpdated
+          ? profileModel.image
+          : profileModel.imageUrl,
       role: role,
       phoneNumber: profileModel.phone,
       location: profileModel.locations,
@@ -76,16 +77,15 @@ class ProfileService {
       places = await _locationListService.getLocationList();
     }
 
-
     return ProfileModel(
-      name: '${myProfile?.data?.name ?? ''}',
-      image: '${myProfile?.data?.image}',
-      phone: '${myProfile?.data?.phoneNumber ?? ''}',
-      locations: myProfile?.data?.city,
-      services: myProfile?.data?.service,
-      languages: myProfile?.data?.guideLanguage,
-      availableLocations: places,
-    );
+        name: '${myProfile?.data?.name ?? ''}',
+        image: '${myProfile?.data?.image}',
+        phone: '${myProfile?.data?.phoneNumber ?? ''}',
+        locations: myProfile?.data?.city,
+        services: myProfile?.data?.service,
+        languages: myProfile?.data?.guideLanguage,
+        availableLocations: places,
+        imageUrl: myProfile?.data?.imageUrl);
   }
 
   Future<ProfileModel> getMyProfile() async {

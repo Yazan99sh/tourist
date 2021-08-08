@@ -25,7 +25,7 @@ class RequestGuideFormStateSuccess extends RequestGuideFormState {
           padding: const EdgeInsets.only(top: 8.0),
           child: Center(
             child: Text(
-              'Request Success!',
+              '${S.of(context).requestSuccess}!',
               textAlign: TextAlign.center,
             ),
           ),

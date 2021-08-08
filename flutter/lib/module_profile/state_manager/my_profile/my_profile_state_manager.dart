@@ -36,14 +36,14 @@ class MyProfileStateManager {
       MyProfileScreen screen, ProfileModel profile) async {
     _stateSubject.add(EditProfileStateLoading(screen));
     await _myProfileService.createProfile(profile);
-    _stateSubject.add(EditProfileStateSaveSuccess(screen));
+     _stateSubject.add(EditProfileStateSaveSuccess(screen));
   }
 
   void getMyProfile(MyProfileScreen screen) {
-    this._authService.userRole.then((role) {
-      this._myProfileService.getMyProfile().then((profile) {
+    _authService.userRole.then((role) {
+        _myProfileService.getMyProfile().then((profile) {
         if (role == UserRole.ROLE_GUIDE) {
-          this._stateSubject.add(
+          _stateSubject.add(
                 EditProfileStateGuideLoadSuccess(
                   screen,
                   profile,
@@ -51,8 +51,7 @@ class MyProfileStateManager {
                 ),
               );
         } else {
-          this
-              ._stateSubject
+          _stateSubject
               .add(EditProfileStateTouristLoadSuccess(screen, profile));
         }
       });

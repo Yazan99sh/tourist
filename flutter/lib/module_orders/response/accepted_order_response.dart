@@ -39,13 +39,13 @@ class Data {
 
   Data(
       {this.id,
-        this.date,
-        this.order,
-        this.touristUserID,
-        this.guidUserID,
-        this.cost,
-        this.status,
-        this.uuid});
+      this.date,
+      this.order,
+      this.touristUserID,
+      this.guidUserID,
+      this.cost,
+      this.status,
+      this.uuid});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -200,21 +200,23 @@ class Order {
   List<String> services;
   String cost;
   String roomID;
+  String uuid;
   String status;
 
   Order(
       {this.id,
-        this.date,
-        this.touristUserID,
-        this.guidUserID,
-        this.city,
-        this.language,
-        this.arriveDate,
-        this.leaveDate,
-        this.services,
-        this.cost,
-        this.roomID,
-        this.status});
+      this.date,
+      this.touristUserID,
+      this.guidUserID,
+      this.city,
+      this.language,
+      this.arriveDate,
+      this.leaveDate,
+      this.services,
+      this.cost,
+      this.roomID,
+      this.status,
+      this.uuid});
 
   Order.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -227,11 +229,12 @@ class Order {
         ? new Date.fromJson(json['arriveDate'])
         : null;
     leaveDate =
-    json['leaveDate'] != null ? new Date.fromJson(json['leaveDate']) : null;
+        json['leaveDate'] != null ? new Date.fromJson(json['leaveDate']) : null;
     services = json['services'].cast<String>();
     cost = json['cost'];
     roomID = json['roomID'];
     status = json['status'];
+    uuid = json['uuid'];
   }
 
   Map<String, dynamic> toJson() {

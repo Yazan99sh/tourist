@@ -20,7 +20,7 @@ class OrdersListBloc {
 
   final TouristOrdersService _ordersService;
   final GuideOrdersService _guideOrdersService;
-  OrdersListBloc(this._ordersService,this._guideOrdersService);
+  OrdersListBloc(this._ordersService, this._guideOrdersService);
 
   final _orderSubject = new PublishSubject<OrdersListState>();
 
@@ -55,7 +55,11 @@ class OrdersListBloc {
       if (value == null) {
         _orderSubject.add(OrderListStateError(screen, 'Error Loading Data'));
       } else {
-        this.getOrdersList(screen);
+        if (orderModel.status == 'done') {
+          this.getGuidOrdersList(screen);
+        } else {
+          this.getOrdersList(screen);
+        }
       }
     });
   }

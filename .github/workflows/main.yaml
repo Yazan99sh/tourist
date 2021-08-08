@@ -28,7 +28,7 @@ jobs:
         PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Select Xcode version
-      run: sudo xcode-select -s '/Applications/Xcode_11.3.app/Contents/Developer'
+      run: sudo xcode-select -s '/Applications/Xcode_12.4.app/Contents/Developer'
 
     - name: Bundle install
       run: cd ./flutter/ios && bundle update --bundler && bundle install

@@ -75,7 +75,7 @@ class GuideOrdersService {
               1000 * e.order.date.timestamp),
           city: e.order.city,
           cost: e.cost,
-          roomId: e.order.roomID,
+          roomId: e.order.roomID??e.order.uuid??e.uuid,
           status: e.status,
         );
       }
@@ -92,14 +92,64 @@ class GuideOrdersService {
         date: DateTime.fromMillisecondsSinceEpoch(1000 * e.date.timestamp),
         city: e.city,
         cost: e.cost,
-        roomId: e.roomID,
+        roomId: e.roomID??e.uuid,
+        status: e.status,
+      );
+    }).toList();
+  }
+  Future<List<OrderModel>> getGuideArea() async {
+    User user = await _auth.currentUser;
+    String userId = user.uid;
+
+    OrderListResponse response = await _ordersManager.getGuideOrders(userId);
+
+    List guideOrder = response != null ? response.data : null;
+    List allOrder = [];
+
+    if (guideOrder != null) {
+      allOrder.addAll(guideOrder);
+    }
+    return allOrder.map((e) {
+      if (e.order != null) {
+        return OrderModel(
+          id: e.id,
+          touristId: e.order.touristUserID,
+          guideUserID: e.order.guidUserID,
+          language: e.order.language,
+          services: e.order.services,
+          arriveDate: DateTime.fromMillisecondsSinceEpoch(
+              1000 * e.order.arriveDate.timestamp),
+          leaveDate: DateTime.fromMillisecondsSinceEpoch(
+              1000 * e.order.leaveDate.timestamp),
+          date: DateTime.fromMillisecondsSinceEpoch(
+              1000 * e.order.date.timestamp),
+          city: e.order.city,
+          cost: e.cost,
+          roomId: e.order.roomID??e.order.uuid??e.uuid,
+          status: e.status,
+        );
+      }
+      return OrderModel(
+        id: e.id,
+        touristId: e.touristUserID,
+        guideUserID: e.guidUserID,
+        language: e.language,
+        services: e.services,
+        arriveDate:
+            DateTime.fromMillisecondsSinceEpoch(1000 * e.arriveDate.timestamp),
+        leaveDate:
+            DateTime.fromMillisecondsSinceEpoch(1000 * e.leaveDate.timestamp),
+        date: DateTime.fromMillisecondsSinceEpoch(1000 * e.date.timestamp),
+        city: e.city,
+        cost: e.cost,
+        roomId: e.roomID??e.uuid,
         status: e.status,
       );
     }).toList();
   }
 
   Future<List<OrderModel>> getAllPossibleOrders() async {
-    List<OrderModel> guideOrders = await getGuideOrders();
+    List<OrderModel> guideOrders = [];
     List<OrderModel> locationOrders = await getAvailableOrders();
 
     List<OrderModel> allOrders = [];
